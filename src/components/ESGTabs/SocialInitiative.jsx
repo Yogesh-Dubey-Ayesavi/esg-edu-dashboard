@@ -11,16 +11,14 @@ const SocialInitiative = ({}) => {
 
   useLayoutEffect(() => {
     const getData = async () => {
-      const files = await ESG.fetchFiles('social');
-      console.log(files)
+      const files = await ESG.fetchFiles("social");
       setInitiatives(files);
     };
     getData();
   }, []);
-  return (
-    initiatives.map(initiative => <InitiativeCard title={initiative.name} key={initiative.sha} dir='social'/>)
-  )
-  ;
+  return initiatives.map((initiative) => (
+    <InitiativeCard title={initiative.name} key={initiative.sha} dir="social" />
+  ));
 };
 
 export default SocialInitiative;

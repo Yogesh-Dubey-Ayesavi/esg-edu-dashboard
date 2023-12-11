@@ -12,7 +12,6 @@ const GovernanceInitiative = ({  }) => {
   useLayoutEffect(() => {
     const getData = async () => {
       const files = await ESG.fetchFiles('governance');
-      console.log(files)
       setInitiatives(files);
     };
     getData();
