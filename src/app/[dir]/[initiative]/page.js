@@ -7,6 +7,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import _ from "lodash";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -40,14 +41,22 @@ const page = ({ params }) => {
     <div className="">
       <div className="flex justify-between m-3">
         <h1 className="text-3xl font-bold text-center">
-          {params.initiative.replace("_", " ")}
+          {_.startCase(params.initiative)}
         </h1>
-        <button
-          className="border-2 border-black rounded-lg p-2 hover:bg-gray-500"
-          onClick={handleUpdate}
-        >
-          Submit
-        </button>
+        <div>
+          <button
+            className="border-2 mx-1 border-black/25 font-bold rounded-lg p-2 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+            onClick={handleUpdate}
+          >
+            Submit
+          </button>
+          <button
+            className="border-2 mx-1 border-black/25 font-bold rounded-lg p-2 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+            onClick={router.back}
+          >
+            Go Back
+          </button>
+        </div>
       </div>
       <MDEditor
         value={markdown.content}
