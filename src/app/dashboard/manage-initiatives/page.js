@@ -8,7 +8,7 @@ import {
   
   export default function TabsDemo() {
     return (
-      <Tabs defaultValue="economical" className="w-[80vw] mx-auto mt-[3rem]">
+      <Tabs defaultValue="economical" className="w-[80%] mx-auto mt-[3rem]">
         <TabsList className="grid w-full grid-cols-3 mb-[2.5rem] h-max bg-white">
           <TabsTrigger className="text-2xl font-bold text-black border-black/50 border-2 mx-2 rounded-xl data-[state=active]:bg-violet-400 data-[state=active]:text-white" value="economical">Environmental</TabsTrigger>
           <TabsTrigger className="text-2xl font-bold text-black border-black/50 border-2 mx-2 rounded-xl data-[state=active]:bg-violet-400 data-[state=active]:text-white" value="governance">Governance</TabsTrigger>
