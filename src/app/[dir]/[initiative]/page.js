@@ -14,6 +14,9 @@ const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 const ESG = EsgSDK.initialize();
 
 const page = ({ params }) => {
+
+  if (params.dir !== 'social' || 'environmental' || 'governance') return <h1>this isnt the page youre looking for champ</h1>;
+
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
   const router = useRouter();
   const handleEditorChange = (value) => {
