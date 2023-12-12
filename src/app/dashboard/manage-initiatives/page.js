@@ -17,11 +17,11 @@ import {
         <TabsContent value="economical" className='w-[95%] mx-auto' >
           <EnvironmentInitiative />
         </TabsContent>
-        <TabsContent value="governance" className='w-[95%] mx-auto' >
-          <GovernanceInitiative />
-        </TabsContent>
         <TabsContent value="social" className='w-[95%] mx-auto' >
           <SocialInitiative />
+        </TabsContent>
+        <TabsContent value="governance" className='w-[95%] mx-auto' >
+          <GovernanceInitiative />
         </TabsContent>
       </Tabs>
     );
