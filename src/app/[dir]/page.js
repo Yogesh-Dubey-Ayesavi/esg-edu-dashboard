@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState, useRef } from "react";
 import { EsgSDK, FileContent } from "esg-sdk";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -10,19 +10,35 @@ import { useRouter } from "next/navigation";
 import _ from "lodash";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
-
 const ESG = EsgSDK.initialize();
 
-const validDIR = ['social', 'environment', 'governance']
+const validDIR = ['social', 'environment', 'governance'];
 
-const page = ({ params }) => {
-
-  if(!validDIR.includes(params.dir)){
-    return <div>This isnt the directory youre looking for.</div>
-  }
-
-  const [markdown, setMarkdown] = useState(" ### Please Wait...");
+const Page = ({ params }) => {
   const router = useRouter();
+  const [markdown, setMarkdown] = useState();
+  const initiativeNameRef = useRef(null);
+
+  // Function to create an initiative
+  const createInitiative = async () => {
+    try {
+      const fileContentData = new FileContent({
+        sha: "",
+        path: `${params.dir}/${_.kebabCase(initiativeNameRef.current.value)}`,
+        name: initiativeNameRef.current.value,
+        type: "file",
+        content: markdown.content || "# Click to start editing", 
+      });
+
+      await ESG.createFile(fileContentData);
+      toast.success("Initiative created successfully!");
+      router.push("/dashboard/manage-initiatives"); 
+    } catch (error) {
+      console.error("Error creating initiative:", error);
+      toast.error("Failed to create initiative. Please try again.");
+    }
+  };
+
   const handleEditorChange = (value) => {
     setMarkdown((prevMarkdown) => ({
       ...prevMarkdown,
@@ -30,30 +46,23 @@ const page = ({ params }) => {
     }));
   };
 
-  const handleUpdate = async () => {
-    const updatedContent = new FileContent({ ...markdown });
-    ESG.updateFile(updatedContent);
-    toast.success("File Updated");
-    router.push("/");
-  };
+  if (!validDIR.includes(params.dir)) {
+    return <div>This isn't the directory you're looking for.</div>;
+  }
 
-  useLayoutEffect(() => {
-    const fetchData = async () => {
-      const data = await ESG.getFileContent(params.dir, params.initiative);
-      setMarkdown(data);
-    };
-    fetchData();
-  }, []);
   return (
     <div className="">
       <div className="flex justify-between m-3">
-        <h1 className="text-3xl font-bold text-center">
-          {_.startCase(params.initiative)}
-        </h1>
+      <input
+          type="text"
+          placeholder="Initiative Name"
+          ref={initiativeNameRef}
+          className="border-2 p-2 border-black/25 font-bold rounded-lg"
+        />
         <div>
           <button
             className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
-            onClick={handleUpdate}
+            onClick={createInitiative}
           >
             Submit
           </button>
@@ -66,7 +75,7 @@ const page = ({ params }) => {
         </div>
       </div>
       <MDEditor
-        value={markdown.content}
+        value='# Click to start editing'
         className="my-1"
         height={825}
         style={{ padding: "1.5rem" }}
@@ -76,4 +85,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

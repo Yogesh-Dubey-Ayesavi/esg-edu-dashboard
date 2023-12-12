@@ -2,7 +2,7 @@
 
 import React, { useLayoutEffect, useState } from "react";
 import { EsgSDK } from "esg-sdk";
-import InitiativeCard from "../InitiativeCard";
+import InitiativeCard, { AddInitiativeCard } from "../InitiativeCard";
 
 const ESG = EsgSDK.initialize();
 
@@ -18,7 +18,7 @@ const EnvironmentInitiative = ({}) => {
   }, []);
   return (
     <>
-      <InitiativeCard title="Add New Initiative" dir="environment" />
+      <AddInitiativeCard dir='environment'/>
       {initiatives.map((initiative) => (
         <InitiativeCard
           title={initiative.name}
