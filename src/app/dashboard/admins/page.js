@@ -1,12 +1,11 @@
 "use client";
 
-import { useTheme } from "@mui/material/styles";
-import { Box, Checkbox, IconButton, useMediaQuery } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { Button, Typography } from "@mui/material";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Search } from "@/components/Search";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { DataGrid } from "@mui/x-data-grid";
 
 const DataTable = () => {
   const theme = useTheme();
@@ -84,6 +83,7 @@ const DataTable = () => {
           "@media (max-width: 600px)": {
             width: "90vw",
           },
+          borderRadius: "10px",
         }}
       >
         <DataGrid
@@ -109,7 +109,7 @@ const DataTable = () => {
             ".PrivateSwitchBase-input": {
               borderRadius: "5px",
             },
-            "&, [class^=MuiDataGrid]": { border: "none" },
+            borderRadius: "10px",
           }}
         />
       </Box>
