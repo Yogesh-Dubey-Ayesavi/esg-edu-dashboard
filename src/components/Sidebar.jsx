@@ -146,7 +146,15 @@ function Sidebar(props) {
             color: "grey",
           }}
         >
-          <Toolbar style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              "@media(max-width: 600px)": {
+                justifyContent: "space-between",
+              },
+            }}
+          >
             <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
               <MenuIcon />
             </IconButton>
