@@ -2,7 +2,7 @@
 
 import React, { useLayoutEffect, useState } from "react";
 import { EsgSDK } from "esg-sdk";
-import InitiativeCard from "../InitiativeCard";
+import InitiativeCard, { AddInitiativeCard } from "../InitiativeCard";
 
 const ESG = EsgSDK.initialize();
 
@@ -16,9 +16,18 @@ const SocialInitiative = ({}) => {
     };
     getData();
   }, []);
-  return initiatives.map((initiative) => (
-    <InitiativeCard title={initiative.name} key={initiative.sha} dir="social" />
-  ));
+  return (
+    <>
+    <AddInitiativeCard dir='social'/>
+      {initiatives.map((initiative) => (
+      <InitiativeCard
+        title={initiative.name}
+        key={initiative.sha}
+        dir="social"
+      />
+      ))}
+    </>
+  );
 };
 
 export default SocialInitiative;
