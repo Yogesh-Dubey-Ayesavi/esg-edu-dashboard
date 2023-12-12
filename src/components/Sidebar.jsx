@@ -13,7 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import * as React from "react";
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import MenuIcon from "@mui/icons-material/Menu";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -25,12 +25,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme/theme"; // Import the created theme
 import Link from "next/link";
+import { NavAvatar } from "./NavAvatar";
 
 const drawerWidth = 280;
 
-const tabs = ["Overview", "Manage Initiatives", "Users", "Settings", "Login", "Register", "Logout"]
+const tabs = ["Overview", "Manage Initiatives", "Administrators", "Settings", "Login", "Register", "Logout"];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/users", "/dashboard/settings", "/login", "/register", "/logout"];
+const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/settings", "/login", "/register", "/logout"];
 
 const iconStyle = {
   color: "white",
@@ -52,18 +53,18 @@ function Sidebar(props) {
       <List style={{ padding: "24px 16px" }}>
         {tabs.map((text, index) => (
           <ListItem style={{ backgroundColor: "rgba(255, 255, 255, 0.05)", borderRadius: "5px", marginBottom: "5px" }} key={text} disablePadding>
-          <Link href={tab_urls[index]}>
-            <ListItemButton>
-              {index === 0 && <DashboardIcon style={iconStyle} />}
-              {index === 1 && <ManageSearchIcon style={iconStyle} />}
-              {index === 2 && <PeopleAltIcon style={iconStyle} />}
-              {index === 3 && <SettingsIcon style={iconStyle} />}
-              {index === 4 && <HttpsIcon style={iconStyle} />}
-              {index === 5 && <PersonAddIcon style={iconStyle} />}
-              {index === 6 && <LogoutIcon style={iconStyle} />}
-              <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>{text}</Typography>
-            </ListItemButton>
-          </Link>
+            <Link href={tab_urls[index]}>
+              <ListItemButton>
+                {index === 0 && <DashboardIcon style={iconStyle} />}
+                {index === 1 && <ManageSearchIcon style={iconStyle} />}
+                {index === 2 && <PeopleAltIcon style={iconStyle} />}
+                {index === 3 && <SettingsIcon style={iconStyle} />}
+                {index === 4 && <HttpsIcon style={iconStyle} />}
+                {index === 5 && <PersonAddIcon style={iconStyle} />}
+                {index === 6 && <LogoutIcon style={iconStyle} />}
+                <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>{text}</Typography>
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -87,6 +88,12 @@ function Sidebar(props) {
             color: "grey",
           }}
         >
+          <Toolbar style={{ display: "flex", justifyContent: "flex-end" }}>
+            <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
+              <MenuIcon />
+            </IconButton>
+            <NavAvatar />
+          </Toolbar>
         </AppBar>
         <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
