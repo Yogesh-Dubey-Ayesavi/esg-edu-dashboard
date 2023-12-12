@@ -27,10 +27,13 @@ export const Search = () => {
         sx={{
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             border: "3.5px solid #6366f1",
+            transition: "0.3s ease-in-out",
           },
           "&:hover .MuiOutlinedInput-notchedOutline": {
             border: "3.5px solid #6366f1",
+            transition: "0.3s ease-in-out",
           },
+          borderRadius: "10px",
         }}
       />
     </Box>
