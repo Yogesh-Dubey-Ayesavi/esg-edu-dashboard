@@ -84,7 +84,7 @@ const Page = ({ params }) => {
         <MDEditor
           value="# Click to start editing"
           className="my-1"
-          height={775}
+          height={700}
           style={{ padding: "1.5rem" }}
           onChange={handleEditorChange}
         />

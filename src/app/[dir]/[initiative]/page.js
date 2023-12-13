@@ -9,10 +9,13 @@ import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import _ from "lodash";
+import CommentSection from "@/components/comments/CommentSection";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const validDIR = ["social", "environment", "governance"];
+
+const DUMMY_COMMENTS = [{id: 1, content: "comment1"}, {id: 2, content: "comment2"}, {id: 3, content: "comment3"}]
 
 const page = ({ params }) => {
   if (!validDIR.includes(params.dir)) {
@@ -96,10 +99,11 @@ const page = ({ params }) => {
         <MDEditor
           value={markdown.content}
           className="my-1"
-          height={775}
+          height={700}
           style={{ padding: "1.5rem" }}
           onChange={handleEditorChange}
         />
+        <CommentSection comments={DUMMY_COMMENTS}/>
       </div>
     </div>
   );
