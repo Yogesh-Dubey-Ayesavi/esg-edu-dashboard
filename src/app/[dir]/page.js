@@ -12,7 +12,7 @@ import ESG from "@/lib/esg-helper";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-const validDIR = ['social', 'environment', 'governance'];
+const validDIR = ["social", "environment", "governance"];
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -21,21 +21,27 @@ const Page = ({ params }) => {
 
   // Function to create an initiative
   const createInitiative = async () => {
-    try {
-      const fileContentData = new FileContent({
-        sha: "",
-        path: `${params.dir}/${_.kebabCase(initiativeNameRef.current.value)}`,
-        name: initiativeNameRef.current.value,
-        type: "file",
-        content: markdown.content || "# Click to start editing", 
-      });
+    const fileContentData = new FileContent({
+      sha: "",
+      path: `${params.dir}/${_.kebabCase(initiativeNameRef.current.value)}`,
+      name: initiativeNameRef.current.value,
+      type: "file",
+      content: markdown.content || "# Click to start editing",
+    });
 
-      await ESG.createFile(fileContentData);
-      toast.success("Initiative created successfully!");
-      router.push("/dashboard/manage-initiatives"); 
+    router.push("/");
+
+    toast.loading("Creating the document", {
+      duration: 5000,
+    });
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      ESG.updateFile(updatedContent);
+      toast.success(
+        "Document Created. Please wait 30 seconds to see the changes"
+      );
     } catch (error) {
-      console.error("Error creating initiative:", error);
-      toast.error("Failed to create initiative. Please try again.");
+      toast.error("Failed to create document");
     }
   };
 
@@ -53,7 +59,7 @@ const Page = ({ params }) => {
   return (
     <div className="">
       <div className="flex justify-between m-3">
-      <input
+        <input
           type="text"
           placeholder="Initiative Name"
           ref={initiativeNameRef}
@@ -74,13 +80,15 @@ const Page = ({ params }) => {
           </button>
         </div>
       </div>
-      <MDEditor
-        value='# Click to start editing'
-        className="my-1"
-        height={825}
-        style={{ padding: "1.5rem" }}
-        onChange={handleEditorChange}
-      />
+      <div data-color-mode="light">
+        <MDEditor
+          value="# Click to start editing"
+          className="my-1"
+          height={775}
+          style={{ padding: "1.5rem" }}
+          onChange={handleEditorChange}
+        />
+      </div>
     </div>
   );
 };

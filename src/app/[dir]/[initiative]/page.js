@@ -30,18 +30,32 @@ const page = ({ params }) => {
 
   const handleUpdate = async () => {
     const updatedContent = new FileContent({ ...markdown });
-    const update = await ESG.updateFile(updatedContent);
-    setTimeout(() => {
-      toast.promise(update, {loading: "Updating File", success: "File Updated", error: "Failed to Update File"});
-      router.push("/");
-    }, 30000);
+    router.push("/dashboard");
+    toast.loading('Updating the document', {
+      duration: 5000})
+    try{
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      ESG.updateFile(updatedContent)
+      toast.success("Updated. Please wait 30 seconds to see the changes");
+    }
+    catch(error){
+      toast.error("Failed to update document");
+    }
   };
 
   const handleDelete = async () => {
     const updatedContent = new FileContent({ ...markdown });
-    ESG.deleteFile(updatedContent);
-    toast.success("File Deleted");
     router.push("/");
+    toast.loading('Deleting the document', {
+      duration: 5000})
+    try{
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      ESG.updateFile(updatedContent)
+      toast.success("Deleted. Please wait 30 seconds to see the changes");
+    }
+    catch(error){
+      toast.error("Failed to delete document");
+    }
   };
 
   useLayoutEffect(() => {
@@ -82,7 +96,7 @@ const page = ({ params }) => {
         <MDEditor
           value={markdown.content}
           className="my-1"
-          height={825}
+          height={775}
           style={{ padding: "1.5rem" }}
           onChange={handleEditorChange}
         />
