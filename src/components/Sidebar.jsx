@@ -55,7 +55,7 @@ function Sidebar(props) {
   };
 
   const drawer = (
-    <div style={{ backgroundColor: "#1c2536", height: "100vh", color: "white" }}>
+    <div style={{ backgroundColor: "#1c2536", height: "130vh", color: "white" }}>
       <Box>
         <Box sx={{ p: 3 }}>
           <Box
@@ -82,7 +82,7 @@ function Sidebar(props) {
           >
             <div>
               <Typography color="inherit" style={{ fontWeight: "600" }}>
-                Devias
+                EsgEdu
               </Typography>
               <Typography color="grey" variant="body2" style={{}}>
                 Production
@@ -142,9 +142,11 @@ function Sidebar(props) {
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
-            backgroundColor: "white",
             color: "grey",
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+            backdropFilter: "blur(20px)",
           }}
+          elevation={0}
         >
           <Toolbar
             sx={{
@@ -190,7 +192,7 @@ function Sidebar(props) {
           </Drawer>
         </Box>
         <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-          {children}
+          <div style={{ marginTop: "70px" }}>{children}</div>
         </Box>
       </Box>
     </ThemeProvider>
