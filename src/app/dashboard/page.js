@@ -1,11 +1,9 @@
 "use client";
-import React, { useLayoutEffect } from "react";
-import { EsgSDK } from "esg-sdk";
+import React, { useLayoutEffect, useState } from "react";
 import { LineChart, DonutChart } from "@tremor/react";
+import ESG from "@/lib/esg-helper";
 
-const ESG = EsgSDK.initialize();
-
-const DUMMY_VIEWS = [
+let views = [
   { date: "Jan 01", views: 100 },
   { date: "Feb 01", views: 200 },
   { date: "Mar 01", views: 300 },
@@ -14,10 +12,12 @@ const DUMMY_VIEWS = [
 ];
 
 const page = () => {
+  const [viewData, setViewData] = useState([]);
   // useLayoutEffect(() => {
   //   const fetchData = async () => {
   //     const data = await ESG.getViewsByDate();
-  //     console.log(data);
+  //     setViewData(data);
+  //     views = [...data]
   //   };
   //   fetchData();
   // }, [])
@@ -25,7 +25,7 @@ const page = () => {
     <div className="h-[95vh] bg-violet-100 flex flex-col items-center p-4">
       <h1 className="text-3xl font-bold text-center">Dashboard Overview</h1>
       <LineChart
-        data={DUMMY_VIEWS}
+        data={views}
         className="my-6"
         index="date"
         categories={["views"]}
@@ -33,7 +33,7 @@ const page = () => {
         yAxisWidth={30}
       />
       <DonutChart
-        data={DUMMY_VIEWS}
+        data={views}
         colors={["blue", "green", "red", "yellow", "amber"]}
         index="date"
         category="views"

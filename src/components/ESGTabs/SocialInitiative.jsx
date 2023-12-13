@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useLayoutEffect, useState } from "react";
-import { EsgSDK } from "esg-sdk";
 import InitiativeCard, { AddInitiativeCard } from "../InitiativeCard";
-
-const ESG = EsgSDK.initialize();
+import ESG from "@/lib/esg-helper";
 
 const SocialInitiative = ({}) => {
   const [initiatives, setInitiatives] = useState([]);

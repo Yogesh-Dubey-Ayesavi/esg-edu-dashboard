@@ -18,7 +18,7 @@ const AccessDenied = () => {
           fontWeight: "600",
           marginTop: "16px",
         }}
-      ><Link href="/login">Back to Login</Link></Button>
+      ><Link href="/hello">Back to Login</Link></Button>
     </div>
   );
 };
