@@ -13,12 +13,11 @@ const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const ESG = EsgSDK.initialize();
 
-const validDIR = ['social', 'environment', 'governance']
+const validDIR = ["social", "environment", "governance"];
 
 const page = ({ params }) => {
-
-  if(!validDIR.includes(params.dir)){
-    return <div>This isnt the directory youre looking for.</div>
+  if (!validDIR.includes(params.dir)) {
+    return <div>This isnt the directory youre looking for.</div>;
   }
 
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
@@ -65,13 +64,15 @@ const page = ({ params }) => {
           </button>
         </div>
       </div>
-      <MDEditor
-        value={markdown.content}
-        className="my-1"
-        height={825}
-        style={{ padding: "1.5rem" }}
-        onChange={handleEditorChange}
-      />
+      <div data-color-mode="light">
+        <MDEditor
+          value={markdown.content}
+          className="my-1"
+          height={825}
+          style={{ padding: "1.5rem" }}
+          onChange={handleEditorChange}
+        />
+      </div>
     </div>
   );
 };

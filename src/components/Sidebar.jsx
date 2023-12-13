@@ -32,9 +32,25 @@ import { SvgIcon } from "@mui/material";
 
 const drawerWidth = 280;
 
-const tabs = ["Overview", "Manage Initiatives", "Administrators", "Settings", "Login", "Register", "Logout"];
+const tabs = [
+  "Overview",
+  "Manage Initiatives",
+  "Administrators",
+  "Settings",
+  "Login",
+  "Register",
+  "Logout",
+];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/settings", "/login", "/register", "/logout"];
+const tab_urls = [
+  "/dashboard",
+  "/dashboard/manage-initiatives",
+  "/dashboard/admins",
+  "/dashboard/settings",
+  "/login",
+  "/register",
+  "/logout",
+];
 
 const iconStyle = {
   color: "white",
@@ -94,14 +110,21 @@ function Sidebar(props) {
           </Box>
         </Box>
       </Box>
-      <Divider style={{ backgroundColor: "#252e3e", height: "2px", marginBottom: "30px" }} />
+      <Divider
+        style={{
+          backgroundColor: "#252e3e",
+          height: "2px",
+          marginBottom: "30px",
+        }}
+      />
       <List style={{ padding: "24px 16px" }}>
         {tabs.map((text, index) => (
           <ListItem
             key={text}
             disablePadding
             style={{
-              backgroundColor: selectedTab === index ? "#252e3e" : "transparent",
+              backgroundColor:
+                selectedTab === index ? "#252e3e" : "transparent",
               borderRadius: "10px",
               marginBottom: "5px",
             }}
@@ -113,25 +136,85 @@ function Sidebar(props) {
                   borderRadius: "10px",
                 }}
               >
-                {index === 0 && <DashboardIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                {index === 1 && <ManageSearchIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                {index === 2 && <PeopleAltIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                {index === 3 && <SettingsIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                {index === 4 && <HttpsIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                {index === 5 && <PersonAddIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                {index === 6 && <LogoutIcon style={{ ...iconStyle, color: selectedTab === index ? "#6366f1" : "#959ca6" }} />}
-                <Typography sx={{ fontWeight: selectedTab === index ? "bold" : "normal", fontSize: "14px", color: selectedTab === index ? "white" : "#959ca6" }}>{text}</Typography>
+                {index === 0 && (
+                  <DashboardIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                {index === 1 && (
+                  <ManageSearchIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                {index === 2 && (
+                  <PeopleAltIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                {index === 3 && (
+                  <SettingsIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                {index === 4 && (
+                  <HttpsIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                {index === 5 && (
+                  <PersonAddIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                {index === 6 && (
+                  <LogoutIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+                <Typography
+                  sx={{
+                    fontWeight: selectedTab === index ? "bold" : "normal",
+                    fontSize: "14px",
+                    color: selectedTab === index ? "white" : "#959ca6",
+                  }}
+                >
+                  {text}
+                </Typography>
               </ListItemButton>
             </Link>
           </ListItem>
         ))}
       </List>
-      <Divider style={{ backgroundColor: "#252e3e", height: "2px", marginTop: "30px" }} />
+      <Divider
+        style={{ backgroundColor: "#252e3e", height: "2px", marginTop: "30px" }}
+      />
     </div>
   );
 
   // Remove this const when copying and pasting into your project.
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <ThemeProvider theme={theme}>
@@ -157,13 +240,23 @@ function Sidebar(props) {
               },
             }}
           >
-            <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
               <MenuIcon />
             </IconButton>
             <NavAvatar />
           </Toolbar>
         </AppBar>
-        <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Drawer
             container={container}
@@ -175,7 +268,10 @@ function Sidebar(props) {
             }}
             sx={{
               display: { xs: "block", sm: "none" },
-              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
             }}
           >
             {drawer}
@@ -184,7 +280,10 @@ function Sidebar(props) {
             variant="permanent"
             sx={{
               display: { xs: "none", sm: "block" },
-              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
             }}
             open
           >
@@ -193,6 +292,7 @@ function Sidebar(props) {
         </Box>
         <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
           <div style={{ marginTop: "70px" }}>{children}</div>
+
         </Box>
       </Box>
     </ThemeProvider>
