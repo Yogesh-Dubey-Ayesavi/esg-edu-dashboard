@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { EsgSDK, FileContent } from "esg-sdk";
+import { FileContent } from "esg-sdk";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import _ from "lodash";
+import ESG from "@/lib/esg-helper";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
-const ESG = EsgSDK.initialize();
 
 const validDIR = ['social', 'environment', 'governance'];
 

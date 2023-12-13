@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
-import {EsgSDK} from "esg-sdk";
 import { cn } from "@/lib/utils"
+import ESG from "@/lib/esg-helper"
 
 const Tabs = TabsPrimitive.Root
 

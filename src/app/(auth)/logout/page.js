@@ -1,15 +1,14 @@
-import React from 'react'
-
+"use client";
+import ESG from "@/lib/esg-helper";
+import { useRouter } from "next/navigation";
 
 const page = () => {
+  const router = useRouter();
 
-  const handleLogout = () => {
-    console.log('logging out');
-  }
+  ESG.signOut();
+  router.push("/hello");
 
-  handleLogout();
-  
-  return 
-}
+  return;
+};
 
-export default page
+export default page;
