@@ -3,9 +3,16 @@ import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@mui/material";
+import ESG from "@/lib/esg-helper";
 
 const AccessDenied = () => {
   const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  const handleAccept = async () => {
+    await ESG.acceptInvitation(token)
+    return;
+  }
 
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full ">
@@ -15,9 +22,9 @@ const AccessDenied = () => {
       <p className="text-2xl">
         Accept the invite to become a collaborator on the forum.
       </p>
-      <p className="text-2xl">token: {searchParams.get("token")}</p>
+      <p className="text-2xl">token: {token}</p>
       <Button
-        variant="contained"
+        variant="outlined"
         style={{
           backgroundColor: "#6366F1",
           padding: "8px 20px",
@@ -26,6 +33,7 @@ const AccessDenied = () => {
           fontWeight: "600",
           marginTop: "16px",
         }}
+        onClick={handleAccept}
       >
         <Link href="/dashboard">Accept Invitation</Link>
       </Button>

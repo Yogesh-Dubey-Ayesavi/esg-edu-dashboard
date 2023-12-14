@@ -8,7 +8,7 @@ export const Search = ({ placeholder }) => {
         margin: "3rem 0",
         width: "400px",
         borderRadius: "11px",
-        "@media (max-width: 600px)": {
+        "@media (maxWidth: 600px)": {
           width: "100%",
         },
       }}

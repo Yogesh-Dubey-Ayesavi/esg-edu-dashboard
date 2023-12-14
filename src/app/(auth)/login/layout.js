@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
     >
       <Grid container sx={{ flex: "1 1 auto" }}>
         <Grid
+          item
           xs={12}
           lg={6}
           sx={{
@@ -50,11 +51,13 @@ export default function RootLayout({ children }) {
           {children}
         </Grid>
         <Grid
+          item
           xs={12}
           lg={6}
           sx={{
             alignItems: "center",
-            background: "radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)",
+            background:
+              "radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)",
             color: "white",
             display: "flex",
             justifyContent: "center",
