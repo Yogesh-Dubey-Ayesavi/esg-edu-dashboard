@@ -6,10 +6,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
+import { useRouter } from "next/navigation";
 
 const DataTable = () => {
   const theme = useTheme();
   const isSmOrDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const router = useRouter();
 
   const columns = [
     { field: "id", headerName: "Id", width: isSmOrDown ? 100 : 250, sortable: false },
@@ -47,7 +49,7 @@ const DataTable = () => {
 
   return (
     <div style={{ height: "100vh" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
         <Typography
           style={{
             fontWeight: "bold",
@@ -65,16 +67,20 @@ const DataTable = () => {
           style={{
             backgroundColor: "#6366F1",
             padding: "8px 20px",
-            borderRadius: "12px",
+            borderRadius: "11px",
             textTransform: "none",
             fontWeight: "600",
+          }}
+          size="large"
+          onClick={()=>{
+            router.push(`/`)
           }}
         >
           Add
         </Button>
       </Box>
 
-      <Search />
+      <Search placeholder={"Search admin..."} />
 
       <Box
         sx={{

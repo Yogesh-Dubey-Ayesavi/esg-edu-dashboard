@@ -61,7 +61,7 @@ const page = ({ params }) => {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const data = await ESG.getFileContent(params.dir, params.initiative);
       setMarkdown(data);
