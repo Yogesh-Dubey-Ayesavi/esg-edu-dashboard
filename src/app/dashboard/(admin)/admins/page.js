@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Search } from "@/components/Search";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -7,6 +8,7 @@ import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/materia
 import { useTheme } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
+import InvitePopUp from '@/components/InvitePopUp';
 
 const DataTable = () => {
   const theme = useTheme();
@@ -47,6 +49,17 @@ const DataTable = () => {
     { id: 9, name: "Michael Blue", createdAt: "2022-09-01" },
   ];
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
     <div style={{ height: "100vh" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
@@ -73,7 +86,7 @@ const DataTable = () => {
           }}
           size="large"
           onClick={()=>{
-            router.push(`/`)
+            handleOpen();
           }}
         >
           Add
@@ -119,6 +132,7 @@ const DataTable = () => {
           }}
         />
       </Box>
+      <InvitePopUp open={open} handleClose={handleClose} />
     </div>
   );
 };

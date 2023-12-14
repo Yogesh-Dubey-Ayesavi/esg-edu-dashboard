@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { Button } from "@mui/material";
 
@@ -18,7 +17,7 @@ const AccessDenied = () => {
           fontWeight: "600",
           marginTop: "16px",
         }}
-      ><Link href="/hello">Back to Login</Link></Button>
+      ><Link href="/login">Back to Login</Link></Button>
     </div>
   );
 };

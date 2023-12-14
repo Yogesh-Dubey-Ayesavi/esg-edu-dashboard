@@ -23,7 +23,6 @@ const EnvironmentInitiative = ({}) => {
   useEffect(() => {
     const getData = async () => {
       const files = await ESG.fetchFiles("environment");
-      // console.log(files);
       setInitiatives(files.map((file, index) => ({ ...file, id: index + 1 })));
     };
     getData();

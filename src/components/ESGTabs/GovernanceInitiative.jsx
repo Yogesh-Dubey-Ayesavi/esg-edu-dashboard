@@ -57,7 +57,6 @@ const GovernanceInitiative = ({}) => {
   useEffect(() => {
     const getData = async () => {
       const files = await ESG.fetchFiles("governance");
-      console.log(files);
       setInitiatives(files.map((file, index) => ({ ...file, id: index + 1 })));
     };
     getData();
