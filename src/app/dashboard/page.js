@@ -2,7 +2,7 @@
 
 import LineChart from "../../components/charts/LineChart";
 import DonutChart from "../../components/charts/DonutChart";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Box, Button } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
 
