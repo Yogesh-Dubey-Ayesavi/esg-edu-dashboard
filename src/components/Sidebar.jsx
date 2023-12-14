@@ -38,7 +38,6 @@ const tabs = [
   "Administrators",
   "Settings",
   "Login",
-  "Register",
   "Logout",
 ];
 
@@ -48,7 +47,6 @@ const tab_urls = [
   "/dashboard/admins",
   "/dashboard/settings",
   "/login",
-  "/register",
   "/logout",
 ];
 
@@ -177,14 +175,6 @@ function Sidebar(props) {
                   />
                 )}
                 {index === 5 && (
-                  <PersonAddIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {index === 6 && (
                   <LogoutIcon
                     style={{
                       ...iconStyle,

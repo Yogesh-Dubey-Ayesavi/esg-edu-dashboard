@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "../global.css";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "react-hot-toast";
+import WithAuth from "@/components/WithAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <div className={inter.className}>
       <Sidebar>
-        <div className="mt-[70px]">{children}</div>
+      <WithAuth><div className="mt-[70px]">{children}</div></WithAuth>
       </Sidebar>
       <Toaster />
     </div>
