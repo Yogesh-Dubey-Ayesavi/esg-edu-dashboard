@@ -30,15 +30,19 @@ import { NavAvatar } from "./NavAvatar";
 import { Logo } from "./logo";
 import { SvgIcon } from "@mui/material";
 
+import loggedIn from "@/lib/is-logged-in";
+
 const drawerWidth = 280;
 
+const isLoggedIn = async () => {
+  return await loggedIn();
+};
 const tabs = [
   "Overview",
   "Manage Initiatives",
   "Administrators",
   "Settings",
-  "Login",
-  "Logout",
+  `${!isLoggedIn ? "Login" : "Logout"}`,
 ];
 
 const tab_urls = [
@@ -46,8 +50,7 @@ const tab_urls = [
   "/dashboard/manage-initiatives",
   "/dashboard/admins",
   "/dashboard/settings",
-  "/login",
-  "/logout",
+  `${!isLoggedIn ? "/login" : "/logout"}`,
 ];
 
 const iconStyle = {
@@ -69,7 +72,9 @@ function Sidebar(props) {
   };
 
   const drawer = (
-    <div style={{ backgroundColor: "#1c2536", height: "130vh", color: "white" }}>
+    <div
+      style={{ backgroundColor: "#1c2536", height: "130vh", color: "white" }}
+    >
       <Box>
         <Box sx={{ p: 3 }}>
           <Box
@@ -166,7 +171,7 @@ function Sidebar(props) {
                     }}
                   />
                 )}
-                {index === 4 && (
+                {!isLoggedIn && index === 4 && (
                   <HttpsIcon
                     style={{
                       ...iconStyle,
@@ -174,7 +179,7 @@ function Sidebar(props) {
                     }}
                   />
                 )}
-                {index === 5 && (
+                {isLoggedIn && index === 4 && (
                   <LogoutIcon
                     style={{
                       ...iconStyle,
@@ -280,9 +285,15 @@ function Sidebar(props) {
             {drawer}
           </Drawer>
         </Box>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+          }}
+        >
           <div style={{ marginTop: "70px" }}>{children}</div>
-
         </Box>
       </Box>
     </ThemeProvider>
