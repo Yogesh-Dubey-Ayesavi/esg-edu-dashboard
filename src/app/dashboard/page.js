@@ -57,7 +57,7 @@ const page = () => {
           reRender={reRender}
         />
       </Box>
-      {/* <SalesChart
+      <SalesChart
         reRender={reRender}
         chartSeries={[
           {
@@ -66,7 +66,7 @@ const page = () => {
           },
         ]}
         sx={{ height: "100%", width: "100%" }}
-      /> */}
+      />
     </>
   );
 };
