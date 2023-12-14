@@ -70,7 +70,7 @@ export default function TabsDemo() {
             marginBottom: "1em",
           }}
         >
-          Overview
+          Manage Initiatives
         </Typography>
 
         <Tabs
