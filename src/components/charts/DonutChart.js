@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { Chart } from "./chart";
-import { EsgSDK } from "esg-sdk";
-
-const ESG = EsgSDK.initialize(process.env.NEXT_PUBLIC_SDKAPI);
+import ESG from "@/lib/esg-helper";
 
 const Page = ({ sx, reRender }) => {
   const [chartData, setChartData] = useState({
