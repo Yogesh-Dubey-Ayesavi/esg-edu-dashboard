@@ -9,6 +9,8 @@ import Google from "../../../lottie/google.json";
 import Lottie from "lottie-react";
 // import { useAuth } from "src/hooks/use-auth";
 
+import ESG from "@/lib/esg-helper";
+
 const Page = () => {
   const router = useRouter();
   //   const auth = useAuth();
@@ -44,6 +46,10 @@ const Page = () => {
     router.push("/");
     //   }, [auth, router]);
   }, [router]);
+
+  const handleClick = () => {
+    ESG.signIn((a, b) => {})
+  }
 
   return (
     <>
@@ -82,7 +88,7 @@ const Page = () => {
               style={{ backgroundColor: "#6366F1", transition: "background-color 0.3s ease" }}
               onMouseOver={(e) => (e.target.style.backgroundColor = "#7C83F4")}
               onMouseOut={(e) => (e.target.style.backgroundColor = "#6366F1")}
-              //   onClick={handleClick}
+              onClick={handleClick}
             >
               <FaGoogle className="mr-2" />
               Sign In with Google

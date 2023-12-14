@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useLayoutEffect, useState } from "react";
-import { EsgSDK, FileContent } from "esg-sdk";
+import { FileContent } from "esg-sdk";
+import ESG from "@/lib/esg-helper";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
@@ -11,14 +12,11 @@ import _ from "lodash";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-const ESG = EsgSDK.initialize();
-
-const validDIR = ['social', 'environment', 'governance']
+const validDIR = ["social", "environment", "governance"];
 
 const page = ({ params }) => {
-
-  if(!validDIR.includes(params.dir)){
-    return <div>This isnt the directory youre looking for.</div>
+  if (!validDIR.includes(params.dir)) {
+    return <div>This isnt the directory youre looking for.</div>;
   }
 
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
@@ -32,8 +30,17 @@ const page = ({ params }) => {
 
   const handleUpdate = async () => {
     const updatedContent = new FileContent({ ...markdown });
-    ESG.updateFile(updatedContent);
-    toast.success("File Updated");
+    const update = await ESG.updateFile(updatedContent);
+    setTimeout(() => {
+      toast.promise(update, {loading: "Updating File", success: "File Updated", error: "Failed to Update File"});
+      router.push("/");
+    }, 30000);
+  };
+
+  const handleDelete = async () => {
+    const updatedContent = new FileContent({ ...markdown });
+    ESG.deleteFile(updatedContent);
+    toast.success("File Deleted");
     router.push("/");
   };
 
@@ -59,19 +66,27 @@ const page = ({ params }) => {
           </button>
           <button
             className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+          <button
+            className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
             onClick={router.back}
           >
             Go Back
           </button>
         </div>
       </div>
-      <MDEditor
-        value={markdown.content}
-        className="my-1"
-        height={825}
-        style={{ padding: "1.5rem" }}
-        onChange={handleEditorChange}
-      />
+      <div data-color-mode="light">
+        <MDEditor
+          value={markdown.content}
+          className="my-1"
+          height={825}
+          style={{ padding: "1.5rem" }}
+          onChange={handleEditorChange}
+        />
+      </div>
     </div>
   );
 };

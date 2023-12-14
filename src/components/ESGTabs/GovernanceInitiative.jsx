@@ -37,7 +37,6 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
-import { EsgSDK } from "esg-sdk";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -47,7 +46,7 @@ const columns = [
   { id: "action", label: "", minWidth: 250, align: "center" },
 ];
 
-const ESG = EsgSDK.initialize();
+import ESG from "@/lib/esg-helper";
 
 const GovernanceInitiative = ({}) => {
   const [initiatives, setInitiatives] = useState([]);
