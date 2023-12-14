@@ -2,16 +2,29 @@
 
 import LineChart from "../../components/charts/LineChart";
 import DonutChart from "../../components/charts/DonutChart";
-import React, { useEffect, useState } from "react";
-import { Box, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
 
 const page = () => {
   const [reRender, setReRender] = useState(false);
 
+
   return (
     <>
       <div>
+      <Typography
+          style={{
+            fontWeight: "bold",
+            fontSize: "2rem",
+            "@media (maxWidth:600px)": {
+              fontSize: "0.5rem",
+            },
+            marginBottom: "1em",
+          }}
+        >
+          Overview
+        </Typography>
         <Button
           color="inherit"
           size="small"
@@ -60,15 +73,3 @@ const page = () => {
 };
 
 export default page;
-
-{
-  /* <SalesChart
-        chartSeries={[
-          {
-            name: "This year",
-            data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
-          },
-        ]}
-        sx={{ height: "100%", width: "70%" }}
-      /> */
-}

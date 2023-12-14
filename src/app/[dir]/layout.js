@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "../global.css";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "react-hot-toast";
+import WithAuth from "@/components/WithAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,9 +13,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-      <div className={inter.className}>
+    <div className={inter.className}>
+      <WithAuth>
         <Sidebar>{children}</Sidebar>
-        <Toaster />
-      </div>
+      </WithAuth>
+      <Toaster />
+    </div>
   );
 }

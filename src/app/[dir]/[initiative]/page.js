@@ -8,26 +8,22 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Button } from "@mui/material";
 import _ from "lodash";
-import CommentSection from "@/components/comments/CommentSection";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const validDIR = ["social", "environment", "governance"];
-
-const DUMMY_COMMENTS = [
-  { id: 1, content: "comment1" },
-  { id: 2, content: "comment2" },
-  { id: 3, content: "comment3" },
-];
 
 const page = ({ params }) => {
   if (!validDIR.includes(params.dir)) {
     return <div>This isnt the directory youre looking for.</div>;
   }
 
-  const [initiativeName, setInitiativeName] = useState(params.initiative);
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
+  const [initiativeName, setInitiativeName] = useState(
+    _.startCase(params.initiative)
+  );
   const router = useRouter();
   const handleEditorChange = (value) => {
     setMarkdown((prevMarkdown) => ({
@@ -37,7 +33,10 @@ const page = ({ params }) => {
   };
 
   const handleUpdate = async () => {
-    const updatedContent = new FileContent({ ...markdown, name: initiativeName });
+    const updatedContent = new FileContent({
+      ...markdown,
+      name: initiativeName,
+    });
     router.push("/dashboard");
     toast.loading("Updating the document", {
       duration: 5000,
@@ -87,35 +86,64 @@ const page = ({ params }) => {
           />
         </div>
         <div>
-          <button
-            className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+          <Button
+            variant="outlined"
+            style={{
+              backgroundColor: "#6366F1",
+              padding: "8px 20px",
+              margin: "0 5px",
+              borderRadius: "12px",
+              textTransform: "none",
+              fontWeight: "600",
+              marginTop: "16px",
+              color: '#000'
+            }}
             onClick={handleUpdate}
           >
             Submit
-          </button>
-          <button
-            className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+          </Button>
+          <Button
+            variant="outlined"
+            style={{
+              backgroundColor: "#6366F1",
+              padding: "8px 20px",
+              margin: "0 5px",
+              borderRadius: "12px",
+              textTransform: "none",
+              fontWeight: "600",
+              marginTop: "16px",
+              color: '#000'
+            }}
             onClick={handleDelete}
           >
             Delete
-          </button>
-          <button
-            className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
-            onClick={router.back}
+          </Button>
+          <Button
+            variant="outlined"
+            style={{
+              backgroundColor: "#6366F1",
+              padding: "8px 20px",
+              margin: "0 5px",
+              borderRadius: "12px",
+              textTransform: "none",
+              fontWeight: "600",
+              marginTop: "16px",
+              color: '#000'
+            }}
+            onClick={handleUpdate}
           >
             Go Back
-          </button>
+          </Button>
         </div>
       </div>
       <div data-color-mode="light">
         <MDEditor
           value={markdown.content}
           className="my-1"
-          height={700}
+          height={750}
           style={{ padding: "1.5rem" }}
           onChange={handleEditorChange}
         />
-        <CommentSection comments={DUMMY_COMMENTS} />
       </div>
     </div>
   );

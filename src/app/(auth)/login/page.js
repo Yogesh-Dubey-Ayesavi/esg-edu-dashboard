@@ -14,7 +14,7 @@ const Page = () => {
   const router = useRouter();
   
   const handleSkip = useCallback(() => {
-    router.push("/");
+    router.push("/dashboard");
   }, [router]);
 
   const handleClick = () => {
