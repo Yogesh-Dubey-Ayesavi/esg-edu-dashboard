@@ -54,7 +54,7 @@ const DataTable = () => {
           style={{
             fontWeight: "bold",
             fontSize: "2rem",
-            "@media (max-width:600px)": {
+            "@media (maxWidth:600px)": {
               fontSize: "0.5rem",
             },
           }}
@@ -86,7 +86,7 @@ const DataTable = () => {
         sx={{
           height: 400,
           width: "100%",
-          "@media (max-width: 600px)": {
+          "@media (maxWidth: 600px)": {
             width: "90vw",
           },
           borderRadius: "10px",

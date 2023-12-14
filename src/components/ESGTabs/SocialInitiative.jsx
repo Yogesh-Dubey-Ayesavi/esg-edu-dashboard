@@ -85,7 +85,7 @@ const SocialInitiative = ({}) => {
         elevation={2}
         sx={{
           width: "100%",
-          "@media (max-width: 600px)": {
+          "@media (maxWidth: 600px)": {
             width: "90vw",
           },
           borderRadius: "10px",

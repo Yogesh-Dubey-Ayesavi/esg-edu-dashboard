@@ -16,7 +16,7 @@ const validDIR = ["social", "environment", "governance"];
 
 const Page = ({ params }) => {
   const router = useRouter();
-  const [markdown, setMarkdown] = useState();
+  const [markdown, setMarkdown] = useState("# Start Editing ");
   const initiativeNameRef = useRef(null);
 
   // Function to create an initiative
@@ -28,15 +28,13 @@ const Page = ({ params }) => {
       type: "file",
       content: markdown.content || "# Click to start editing",
     });
-
-    router.push("/");
-
-    toast.loading("Creating the document", {
+    toast.loading("Creating document", {
       duration: 5000,
     });
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      ESG.updateFile(updatedContent);
+      router.push("/dashboard/manage-initiatives");
+      ESG.createFile(fileContentData);
       toast.success(
         "Document Created. Please wait 30 seconds to see the changes"
       );
@@ -46,10 +44,7 @@ const Page = ({ params }) => {
   };
 
   const handleEditorChange = (value) => {
-    setMarkdown((prevMarkdown) => ({
-      ...prevMarkdown,
-      content: value,
-    }));
+    setMarkdown(value);
   };
 
   if (!validDIR.includes(params.dir)) {
@@ -59,6 +54,7 @@ const Page = ({ params }) => {
   return (
     <div className="">
       <div className="flex justify-between m-3">
+      <label htmlFor="initiativeName">Name of Initiative</label>
         <input
           type="text"
           placeholder="Initiative Name"
@@ -82,7 +78,7 @@ const Page = ({ params }) => {
       </div>
       <div data-color-mode="light">
         <MDEditor
-          value="# Click to start editing"
+          value={markdown}
           className="my-1"
           height={700}
           style={{ padding: "1.5rem" }}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FileContent } from "esg-sdk";
 import ESG from "@/lib/esg-helper";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -15,13 +15,18 @@ const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const validDIR = ["social", "environment", "governance"];
 
-const DUMMY_COMMENTS = [{id: 1, content: "comment1"}, {id: 2, content: "comment2"}, {id: 3, content: "comment3"}]
+const DUMMY_COMMENTS = [
+  { id: 1, content: "comment1" },
+  { id: 2, content: "comment2" },
+  { id: 3, content: "comment3" },
+];
 
 const page = ({ params }) => {
   if (!validDIR.includes(params.dir)) {
     return <div>This isnt the directory youre looking for.</div>;
   }
 
+  const [initiativeName, setInitiativeName] = useState(params.initiative);
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
   const router = useRouter();
   const handleEditorChange = (value) => {
@@ -32,31 +37,31 @@ const page = ({ params }) => {
   };
 
   const handleUpdate = async () => {
-    const updatedContent = new FileContent({ ...markdown });
+    const updatedContent = new FileContent({ ...markdown, name: initiativeName });
     router.push("/dashboard");
-    toast.loading('Updating the document', {
-      duration: 5000})
-    try{
+    toast.loading("Updating the document", {
+      duration: 5000,
+    });
+    try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      ESG.updateFile(updatedContent)
+      ESG.updateFile(updatedContent);
       toast.success("Updated. Please wait 30 seconds to see the changes");
-    }
-    catch(error){
+    } catch (error) {
       toast.error("Failed to update document");
     }
   };
 
   const handleDelete = async () => {
     const updatedContent = new FileContent({ ...markdown });
-    router.push("/");
-    toast.loading('Deleting the document', {
-      duration: 5000})
-    try{
+    toast.loading("Deleting the document", {
+      duration: 5000,
+    });
+    try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      ESG.updateFile(updatedContent)
+      router.push("/");
+      ESG.updateFile(updatedContent);
       toast.success("Deleted. Please wait 30 seconds to see the changes");
-    }
-    catch(error){
+    } catch (error) {
       toast.error("Failed to delete document");
     }
   };
@@ -71,9 +76,16 @@ const page = ({ params }) => {
   return (
     <div className="">
       <div className="flex justify-between m-3">
-        <h1 className="text-3xl font-bold text-center">
-          {_.startCase(params.initiative)}
-        </h1>
+        <div>
+          <label htmlFor="initiativeName">Name of Initiative</label>
+          <input
+            type="text"
+            placeholder="Initiative Name"
+            value={initiativeName}
+            className="border-2 p-2 border-black/25 font-bold rounded-lg mx-3"
+            onChange={(e) => setInitiativeName(e.value)}
+          />
+        </div>
         <div>
           <button
             className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
@@ -103,7 +115,7 @@ const page = ({ params }) => {
           style={{ padding: "1.5rem" }}
           onChange={handleEditorChange}
         />
-        <CommentSection comments={DUMMY_COMMENTS}/>
+        <CommentSection comments={DUMMY_COMMENTS} />
       </div>
     </div>
   );

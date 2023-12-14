@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { EsgSDK } from "esg-sdk";
 import Chart from "react-apexcharts";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 
-const ESG = EsgSDK.initialize(process.env.NEXT_PUBLIC_SDKAPI);
+import ESG from "@/lib/esg-helper";
 
 const Page = ({ sx, reRender }) => {
   const [chartData, setChartData] = useState({

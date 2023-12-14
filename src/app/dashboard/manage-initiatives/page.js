@@ -1,6 +1,10 @@
 "use client";
 
-import { EnvironmentInitiative, SocialInitiative, GovernanceInitiative } from "@/components/ESGTabs/index";
+import {
+  EnvironmentInitiative,
+  SocialInitiative,
+  GovernanceInitiative,
+} from "@/components/ESGTabs/index";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -23,11 +27,15 @@ function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
       {value === index && (
-        <Box sx={{ display: "flex", justifyContent: "left" }}>
-          {children}
-        </Box>
+        <Box sx={{ display: "flex", justifyContent: "left" }}>{children}</Box>
       )}
     </div>
   );
@@ -42,7 +50,7 @@ function a11yProps(index) {
 
 export default function TabsDemo() {
   const [value, setValue] = useState(0);
-  const urls = ["environment", "governance", "social"];
+  const urls = ["environment", "social", "governance"];
   const router = useRouter();
 
   const handleChange = (event, newValue) => {
@@ -56,7 +64,7 @@ export default function TabsDemo() {
           style={{
             fontWeight: "bold",
             fontSize: "2rem",
-            "@media (max-width:600px)": {
+            "@media (maxWidth:600px)": {
               fontSize: "0.5rem",
             },
             marginBottom: "1em",
@@ -85,15 +93,21 @@ export default function TabsDemo() {
           }}
         >
           <Tab sx={tabStyle} label="Environmental" {...a11yProps(0)} />
-          <Tab sx={tabStyle} label="Governance" {...a11yProps(1)} />
-          <Tab sx={tabStyle} label="Social" {...a11yProps(2)} />
+          <Tab sx={tabStyle} label="Social" {...a11yProps(1)} />
+          <Tab sx={tabStyle} label="Governance" {...a11yProps(2)} />
         </Tabs>
       </Box>
 
       <Box width="800px">
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "20px",
+          }}
+        >
           <Search placeholder={"Search file.."} />
-          {/* <Link href={dir}> */}
           <Button
             variant="contained"
             startIcon={<AddOutlinedIcon />}
@@ -109,9 +123,8 @@ export default function TabsDemo() {
               router.push(`/${urls[value]}`);
             }}
           >
-            Add
+            <Link href={`${value}`}>Add</Link>
           </Button>
-          {/* </Link> */}
         </Box>
 
         <Box>
@@ -119,10 +132,10 @@ export default function TabsDemo() {
             <EnvironmentInitiative />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <GovernanceInitiative />
+            <SocialInitiative />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <SocialInitiative />
+            <GovernanceInitiative />
           </CustomTabPanel>
         </Box>
       </Box>
