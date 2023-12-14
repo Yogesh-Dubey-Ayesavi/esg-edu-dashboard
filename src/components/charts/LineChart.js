@@ -6,6 +6,8 @@ import ESG from "@/lib/esg-helper";
 import Chart from "react-apexcharts";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 
+
+
 const Page = ({ sx, reRender }) => {
   const [chartData, setChartData] = useState({
     options: {
@@ -31,7 +33,9 @@ const Page = ({ sx, reRender }) => {
         // const data = await ESG.getViewsByDate();
         const data = await ESG.getViewsByDate();
         // Assuming data is an array of objects with "date" and "views" properties
-        const categories = data.map((entry) => new Date(entry.date).toLocaleDateString());
+        const categories = data.map((entry) =>
+          new Date(entry.date).toLocaleDateString()
+        );
         const views = data.map((entry) => parseInt(entry.views));
 
         setChartData({
@@ -61,9 +65,19 @@ const Page = ({ sx, reRender }) => {
 
   return (
     <Card sx={sx}>
-      <CardHeader title={<p style={{ fontWeight: "bold", fontSize: "15px" }}>Page Views</p>} />
+      <CardHeader
+        title={
+          <p style={{ fontWeight: "bold", fontSize: "15px" }}>Page Views</p>
+        }
+      />
       <CardContent>
-        <Chart options={chartData.options} series={chartData.series} type="line" width="100%" height="300" />
+        <Chart
+          options={chartData.options}
+          series={chartData.series}
+          type="line"
+          width="100%"
+          height="300"
+        />
       </CardContent>
     </Card>
   );

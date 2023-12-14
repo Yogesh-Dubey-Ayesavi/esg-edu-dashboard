@@ -1,45 +1,76 @@
 "use client";
 
-import React from "react";
-import { Card, CardTitle, CardContent } from "@/components/ui/card";
+import { Box, Button, Link, Stack, Typography } from "@mui/material";
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import Google from "../../../lottie/google.json";
+import Lottie from "lottie-react";
 
-const page = () => {
+import ESG from "@/lib/esg-helper";
+
+const Page = () => {
+  const router = useRouter();
+  
+  const handleSkip = useCallback(() => {
+    router.push("/");
+  }, [router]);
+
   const handleClick = () => {
-    console.log("handleClick");
-  };
+    ESG.signIn((a, b) => {})
+  }
 
   return (
-    <div className="h-[95vh] bg-black/20 py-[12.5vh] flex">
-      <div className="w-[50%]">
-        <h1 className="text-center text-4xl my-10 font-bold">
-          Welcome to ESG Edu!
-        </h1>
-        <Card className="flex flex-col justify-center items-start w-[80%] text-center mx-auto h-[40vh] p-8 border-2 border-black/25 bg-white/50 drop-shadow-2xl">
-          <CardTitle>Login to ESG Edu</CardTitle>
-          <p className="text-gray-500 mt-3 text-left">
-            ESG Edu is a solution for Jharkhand Government.
-          </p>
-          <p className="text-gray-500 mb-3 text-left">
-            Login to get access to the management dashboard.
-          </p>
-          <CardContent className="my-5 px-0">
+    <>
+      <Box
+        sx={{
+          backgroundColor: "background.paper",
+          flex: "1 1 auto",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            maxWidth: 550,
+            px: 3,
+            py: "100px",
+            width: "100%",
+          }}
+        >
+          <div>
+            <Stack spacing={1} sx={{ mb: 3 }}>
+              <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                Login
+              </Typography>
+              <Typography color="grey" variant="body2">
+                Don&apos;t have an account? &nbsp;
+                <Link component={NextLink} href="/auth/register" underline="hover" variant="subtitle2">
+                  Register
+                </Link>
+              </Typography>
+            </Stack>
+            <Lottie animationData={Google} style={{ height: "200px", margin: "30px 0px" }} />
             <button
-              className="flex justify-between w-full border-2 border-black/25 font-bold rounded-lg py-2 px-8 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+              className="flex justify-center items-center w-full font-bold rounded-lg py-2 px-8   transition-colors ease-linear text-white border-0"
+              style={{ backgroundColor: "#6366F1", transition: "background-color 0.3s ease" }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#7C83F4")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#6366F1")}
               onClick={handleClick}
             >
-              <FaGoogle className="translate-y-1 mr-2" />
-              Sign-In
+              <FaGoogle className="mr-2" />
+              Sign In with Google
             </button>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="w-[50%] border-2 border-violet-500/50 mr-10">
-        {" "}
-        image here{" "}
-      </div>
-    </div>
+            <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
+              Skip authentication
+            </Button>
+          </div>
+        </Box>
+      </Box>
+    </>
   );
 };
 
-export default page;
+export default Page;
