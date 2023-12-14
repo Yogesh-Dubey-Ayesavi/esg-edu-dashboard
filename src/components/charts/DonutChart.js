@@ -17,10 +17,10 @@ const Page = ({ sx, reRender }) => {
     const fetchData = async () => {
       try {
         const data = await ESG.getViewsByCityAndPage();
-        console.log(data);
-        const uniqueEntries = Array.from(new Set(data.map((entry) => entry.city_name + "|" + entry.page_name)));
+        // console.log(data);
+        const uniqueEntries = Array.from(new Set(data.map((entry) => entry.city_name + " | " + entry.page_name)));
         const seriesData = uniqueEntries.map((uniqueEntry) => {
-          const viewsSum = data.filter((entry) => entry.city_name + "|" + entry.page_name === uniqueEntry).reduce((sum, entry) => sum + parseInt(entry.views), 0);
+          const viewsSum = data.filter((entry) => entry.city_name + " | " + entry.page_name === uniqueEntry).reduce((sum, entry) => sum + parseInt(entry.views), 0);
           return viewsSum;
         });
 
@@ -36,8 +36,8 @@ const Page = ({ sx, reRender }) => {
     fetchData();
   }, [reRender]);
 
-  console.log("Options:", chartData.labels);
-  console.log("Series:", chartData.series);
+  // console.log("Options:", chartData.labels);
+  // console.log("Series:", chartData.series);
 
   return (
     <Card sx={sx}>
