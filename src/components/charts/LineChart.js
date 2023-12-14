@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-// import { EsgSDK } from "esg-sdk";
 import ESG from "@/lib/esg-helper";
 import Chart from "react-apexcharts";
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader} from "@mui/material";
 
 
 
@@ -67,7 +66,7 @@ const Page = ({ sx, reRender }) => {
     <Card sx={sx}>
       <CardHeader
         title={
-          <p style={{ fontWeight: "bold", fontSize: "15px" }}>Page Views</p>
+          <p style={{ fontWeight: "bold", fontSize: "15px" }}>Date Views</p>
         }
       />
       <CardContent>
