@@ -1,18 +1,13 @@
-import { useTheme } from '@mui/material/styles';
+"use client";
+
+import { useTheme } from "@mui/material/styles";
 
 export const Logo = () => {
   const theme = useTheme();
   const fillColor = theme.palette.primary.main;
 
   return (
-    <svg
-      fill="none"
-      height="100%"
-      viewBox="0 0 24 24"
-      width="100%"
-      color="#6366f1"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg fill="none" height="100%" viewBox="0 0 24 24" width="100%" color="#6366f1" xmlns="http://www.w3.org/2000/svg">
       <path
         opacity={0.16}
         d="M7.242 11.083c.449-1.674 2.17-3.394 3.843-3.843l10.434-2.796c1.673-.448 2.666.545 2.218 2.218L20.94 17.096c-.449 1.674-2.17 3.394-3.843 3.843L6.664 23.735c-1.673.448-2.666-.545-2.218-2.218l2.796-10.434Z"

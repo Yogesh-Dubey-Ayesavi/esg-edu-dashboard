@@ -1,15 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { Search } from "@/components/Search";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
+import { useRouter } from "next/navigation";
+import InvitePopUp from '@/components/InvitePopUp';
 
 const DataTable = () => {
   const theme = useTheme();
   const isSmOrDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const router = useRouter();
 
   const columns = [
     { field: "id", headerName: "Id", width: isSmOrDown ? 100 : 250, sortable: false },
@@ -45,14 +49,25 @@ const DataTable = () => {
     { id: 9, name: "Michael Blue", createdAt: "2022-09-01" },
   ];
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
     <div style={{ height: "100vh" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
         <Typography
           style={{
             fontWeight: "bold",
             fontSize: "2rem",
-            "@media (max-width:600px)": {
+            "@media (maxWidth:600px)": {
               fontSize: "0.5rem",
             },
           }}
@@ -65,22 +80,26 @@ const DataTable = () => {
           style={{
             backgroundColor: "#6366F1",
             padding: "8px 20px",
-            borderRadius: "12px",
+            borderRadius: "11px",
             textTransform: "none",
             fontWeight: "600",
+          }}
+          size="large"
+          onClick={()=>{
+            handleOpen();
           }}
         >
           Add
         </Button>
       </Box>
 
-      <Search />
+      <Search placeholder={"Search admin..."} />
 
       <Box
         sx={{
           height: 400,
           width: "100%",
-          "@media (max-width: 600px)": {
+          "@media (maxWidth: 600px)": {
             width: "90vw",
           },
           borderRadius: "10px",
@@ -113,6 +132,7 @@ const DataTable = () => {
           }}
         />
       </Box>
+      <InvitePopUp open={open} handleClose={handleClose} />
     </div>
   );
 };

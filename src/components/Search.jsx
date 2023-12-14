@@ -1,14 +1,14 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Card, InputAdornment, OutlinedInput, Paper, SvgIcon } from "@mui/material";
 
-export const Search = () => {
+export const Search = ({ placeholder }) => {
   return (
     <Paper
       sx={{
         margin: "3rem 0",
         width: "400px",
         borderRadius: "11px",
-        "@media (max-width: 600px)": {
+        "@media (maxWidth: 600px)": {
           width: "100%",
         },
       }}
@@ -16,7 +16,7 @@ export const Search = () => {
       <OutlinedInput
         defaultValue=""
         fullWidth
-        placeholder="Search company"
+        placeholder={placeholder}
         startAdornment={
           <InputAdornment position="start">
             <SvgIcon color="action" fontSize="small">

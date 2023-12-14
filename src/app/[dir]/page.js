@@ -1,49 +1,50 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { EsgSDK, FileContent } from "esg-sdk";
+import { FileContent } from "esg-sdk";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import _ from "lodash";
+import ESG from "@/lib/esg-helper";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
-const ESG = EsgSDK.initialize();
 
-const validDIR = ['social', 'environment', 'governance'];
+const validDIR = ["social", "environment", "governance"];
 
 const Page = ({ params }) => {
   const router = useRouter();
-  const [markdown, setMarkdown] = useState();
+  const [markdown, setMarkdown] = useState("# Start Editing ");
   const initiativeNameRef = useRef(null);
 
   // Function to create an initiative
   const createInitiative = async () => {
+    const fileContentData = new FileContent({
+      sha: "",
+      path: `${params.dir}/${_.kebabCase(initiativeNameRef.current.value)}`,
+      name: initiativeNameRef.current.value,
+      type: "file",
+      content: markdown.content || "# Click to start editing",
+    });
+    toast.loading("Creating document", {
+      duration: 5000,
+    });
     try {
-      const fileContentData = new FileContent({
-        sha: "",
-        path: `${params.dir}/${_.kebabCase(initiativeNameRef.current.value)}`,
-        name: initiativeNameRef.current.value,
-        type: "file",
-        content: markdown.content || "# Click to start editing", 
-      });
-
-      await ESG.createFile(fileContentData);
-      toast.success("Initiative created successfully!");
-      router.push("/dashboard/manage-initiatives"); 
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      router.push("/dashboard/manage-initiatives");
+      ESG.createFile(fileContentData);
+      toast.success(
+        "Document Created. Please wait 30 seconds to see the changes"
+      );
     } catch (error) {
-      console.error("Error creating initiative:", error);
-      toast.error("Failed to create initiative. Please try again.");
+      toast.error("Failed to create document");
     }
   };
 
   const handleEditorChange = (value) => {
-    setMarkdown((prevMarkdown) => ({
-      ...prevMarkdown,
-      content: value,
-    }));
+    setMarkdown(value);
   };
 
   if (!validDIR.includes(params.dir)) {
@@ -53,7 +54,8 @@ const Page = ({ params }) => {
   return (
     <div className="">
       <div className="flex justify-between m-3">
-      <input
+      <label htmlFor="initiativeName">Name of Initiative</label>
+        <input
           type="text"
           placeholder="Initiative Name"
           ref={initiativeNameRef}
@@ -74,13 +76,15 @@ const Page = ({ params }) => {
           </button>
         </div>
       </div>
-      <MDEditor
-        value='# Click to start editing'
-        className="my-1"
-        height={825}
-        style={{ padding: "1.5rem" }}
-        onChange={handleEditorChange}
-      />
+      <div data-color-mode="light">
+        <MDEditor
+          value={markdown}
+          className="my-1"
+          height={700}
+          style={{ padding: "1.5rem" }}
+          onChange={handleEditorChange}
+        />
+      </div>
     </div>
   );
 };

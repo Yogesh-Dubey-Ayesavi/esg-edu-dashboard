@@ -1,15 +1,21 @@
-import React from 'react'
-
+"use client";
+import ESG from "@/lib/esg-helper";
+import { useRouter } from "next/navigation";
+import { useLayoutEffect } from "react";
 
 const page = () => {
+  const router = useRouter();
 
-  const handleLogout = () => {
-    console.log('logging out');
-  }
+  useLayoutEffect(() => {
+    const handleSignOut = async () => {
+      await ESG.signOut();
+      router.push("/login");
+    };
 
-  handleLogout();
-  
-  return 
-}
+    handleSignOut();
+  });
 
-export default page
+  return <h1 className="text-3xl font-bold text-center">Loggin Out</h1>;
+};
+
+export default page;
