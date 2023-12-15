@@ -3,16 +3,29 @@
 import LineChart from "../../components/charts/LineChart";
 import DonutChart from "../../components/charts/DonutChart";
 import React, { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
 import SalesChart from "@/components/charts/SalesChart";
 
 const page = () => {
   const [reRender, setReRender] = useState(false);
 
+
   return (
     <>
       <div>
+      <Typography
+          style={{
+            fontWeight: "bold",
+            fontSize: "2rem",
+            "@media (maxWidth:600px)": {
+              fontSize: "0.5rem",
+            },
+            marginBottom: "1em",
+          }}
+        >
+          Overview
+        </Typography>
         <Button
           color="inherit"
           size="small"

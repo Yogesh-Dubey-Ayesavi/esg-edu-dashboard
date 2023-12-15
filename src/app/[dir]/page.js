@@ -80,7 +80,7 @@ const Page = ({ params }) => {
         <MDEditor
           value={markdown}
           className="my-1"
-          height={700}
+          height={750}
           style={{ padding: "1.5rem" }}
           onChange={handleEditorChange}
         />
