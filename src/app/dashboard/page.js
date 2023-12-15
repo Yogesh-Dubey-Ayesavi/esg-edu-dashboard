@@ -5,7 +5,7 @@ import DonutChart from "../../components/charts/DonutChart";
 import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
-import SalesChart from "@/components/charts/SalesChart";
+// import SalesChart from "@/components/charts/SalesChart";
 
 const page = () => {
   const [reRender, setReRender] = useState(false);
@@ -70,7 +70,7 @@ const page = () => {
           reRender={reRender}
         />
       </Box>
-      <SalesChart
+      {/* <SalesChart
         reRender={reRender}
         chartSeries={[
           {
@@ -79,7 +79,7 @@ const page = () => {
           },
         ]}
         sx={{ height: "100%", width: "100%" }}
-      />
+      /> */}
     </>
   );
 };

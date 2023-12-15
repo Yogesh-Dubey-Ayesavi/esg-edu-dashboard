@@ -18,7 +18,9 @@ const Page = () => {
   }, [router]);
 
   const handleClick = () => {
-    ESG.signIn((a, b) => {})
+    ESG.signIn((a, b) => {
+      console.log(a, b);
+    })
   }
 
   return (

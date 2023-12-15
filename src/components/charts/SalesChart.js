@@ -82,7 +82,7 @@ const useChartOptions = () => {
         color: theme.palette.divider,
         show: true,
       },
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      categories: [],
       labels: {
         offsetY: 5,
         style: {
@@ -118,12 +118,6 @@ const SalesChart = (props) => {
       <CardContent>
         <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
       </CardContent>
-      {/* <Divider /> */}
-      {/* <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button style={{ color: "grey" }} color="inherit" endIcon={<ArrowRightAltIcon />} size="small">
-          Overview
-        </Button>
-      </CardActions> */}
     </Card>
   );
 };
