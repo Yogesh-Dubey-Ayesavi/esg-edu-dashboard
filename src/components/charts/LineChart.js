@@ -19,7 +19,7 @@ const Page = ({ sx, reRender }) => {
     },
     series: [
       {
-        name: "series-1",
+        name: "",
         data: [],
       },
     ],
@@ -31,8 +31,11 @@ const Page = ({ sx, reRender }) => {
         // const data = await ESG.getViewsByDate();
         const data = await ESG.getViewsByDate();
         // Assuming data is an array of objects with "date" and "views" properties
-        const categories = data.map((entry) => new Date(entry.date).toLocaleDateString());
-        const views = data.map((entry) => parseInt(entry.views));
+
+        const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        const categories = sortedData.map((entry) => new Date(entry.date).toLocaleDateString());
+        const views = sortedData.map((entry) => parseInt(entry.views));
 
         setChartData({
           options: {

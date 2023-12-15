@@ -12,7 +12,7 @@ import ESG from "@/lib/esg-helper";
 
 const Page = () => {
   const router = useRouter();
-  
+
   const handleSkip = useCallback(() => {
     router.push("/dashboard");
   }, [router]);
@@ -20,8 +20,8 @@ const Page = () => {
   const handleClick = () => {
     ESG.signIn((a, b) => {
       console.log(a, b);
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -65,9 +65,6 @@ const Page = () => {
               <FaGoogle className="mr-2" />
               Sign In with Google
             </button>
-            <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
-              Skip authentication
-            </Button>
           </div>
         </Box>
       </Box>

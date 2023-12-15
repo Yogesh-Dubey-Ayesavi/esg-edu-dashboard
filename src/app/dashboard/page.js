@@ -5,16 +5,15 @@ import DonutChart from "../../components/charts/DonutChart";
 import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
-// import SalesChart from "@/components/charts/SalesChart";
+import SalesChart from "@/components/charts/SalesChart";
 
 const page = () => {
   const [reRender, setReRender] = useState(false);
 
-
   return (
     <>
       <div>
-      <Typography
+        <Typography
           style={{
             fontWeight: "bold",
             fontSize: "2rem",
@@ -48,12 +47,13 @@ const page = () => {
             flexDirection: "column",
             alignItems: "flex-start",
           },
+          marginBottom: "20px",
         }}
       >
         <LineChart
           sx={{
             height: "100%",
-            width: "60%",
+            width: "70%",
             "@media (max-width: 1130px)": {
               width: "100%",
             },
@@ -63,23 +63,23 @@ const page = () => {
         <DonutChart
           sx={{
             height: "100%",
-            "@media (maxWidth: 1130px)": {
-              width: "100%",
-            },
+            // "@media (maxWidth: 1130px)": {
+            //   // width: "100%",
+            // },
           }}
           reRender={reRender}
         />
       </Box>
-      {/* <SalesChart
+      <SalesChart
         reRender={reRender}
-        chartSeries={[
-          {
-            name: "This year",
-            data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
-          },
-        ]}
+        // chartSeries={[
+        //   {
+        //     name: "This year",
+        //     data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
+        //   },
+        // ]}
         sx={{ height: "100%", width: "100%" }}
-      /> */}
+      />
     </>
   );
 };

@@ -2,13 +2,13 @@
 
 // import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 // import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, SvgIcon, Typography } from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
+import ESG from "@/lib/esg-helper";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useState, useEffect } from "react";
 import { Chart } from "./chart";
-import SyncIcon from "@mui/icons-material/Sync";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
-const useChartOptions = () => {
+const useChartOptions = (categories) => {
   const theme = useTheme();
 
   return {
@@ -58,7 +58,7 @@ const useChartOptions = () => {
       },
     },
     legend: {
-      show: false,
+      show: true,
     },
     plotOptions: {
       bar: {
@@ -82,7 +82,7 @@ const useChartOptions = () => {
         color: theme.palette.divider,
         show: true,
       },
-      categories: [],
+      categories: categories,
       labels: {
         offsetY: 5,
         style: {
@@ -92,7 +92,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => (value > 0 ? `${value}` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary,
@@ -103,8 +103,36 @@ const useChartOptions = () => {
 };
 
 const SalesChart = (props) => {
-  const { chartSeries, reRender } = props;
-  const chartOptions = useChartOptions();
+  const { reRender } = props;
+
+  const [chartData, setChartData] = useState({
+    categories: [],
+    views: [],
+  });
+
+  const chartOptions = useChartOptions(chartData.categories);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await ESG.getViewsByPage();
+        const categories = data.map((entry) => {
+          const parts = entry.page_name.split("|");
+          return parts[0].trim();
+        });
+        const views = data.map((entry) => parseInt(entry.views));
+
+        setChartData({
+          categories: categories,
+          views: views,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [reRender]);
 
   return (
     <Card>
@@ -116,7 +144,7 @@ const SalesChart = (props) => {
         }
       />
       <CardContent>
-        <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
+        <Chart height={350} options={chartOptions} series={[{ data: chartData.views, name: "Views" }]} type="bar" width="100%" />
       </CardContent>
     </Card>
   );

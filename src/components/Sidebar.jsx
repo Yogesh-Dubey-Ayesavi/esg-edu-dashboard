@@ -230,7 +230,7 @@ function Sidebar(props) {
             sx={{
               display: "flex",
               justifyContent: "flex-end",
-              "@media(maxWidth: 600px)": {
+              "@media(max-width: 600px)": {
                 justifyContent: "space-between",
               },
             }}

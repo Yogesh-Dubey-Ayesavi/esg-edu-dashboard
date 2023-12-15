@@ -37,28 +37,31 @@ const Page = ({ sx, reRender }) => {
     <Card sx={sx}>
       <CardHeader title={<p style={{ fontWeight: "bold", fontSize: "15px" }}>Traffic Source</p>} />
       <CardContent>
-        <Chart
-          options={{
-            labels: chartData.labels,
-            responsive: [
-              {
-                breakpoint: 768, // width at which the chart becomes responsive
-                options: {
-                  chart: {
-                    width: "100%",
+        <div style={{display: "flex", justifyContent: "center"}}>
+          <Chart
+            options={{
+              labels: chartData.labels,
+              responsive: [
+                {
+                  breakpoint: 1130, // width at which the chart becomes responsive
+                  options: {
+                    chart: {
+                      width: "100%",
+                      height: "",
+                    },
                   },
                 },
+              ],
+              legend: {
+                show: false,
               },
-            ],
-            legend: {
-              show: false,
-            },
-          }}
-          series={chartData.series}
-          type="donut"
-          width="410"
-          height=""
-        />
+            }}
+            series={chartData.series}
+            type="donut"
+            width="410"
+            height=""
+          />
+        </div>
       </CardContent>
     </Card>
   );

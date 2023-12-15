@@ -8,9 +8,11 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
+import { Button, OutlinedInput, Paper, SvgIcon } from "@mui/material";
 import _ from "lodash";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PublishIcon from "@mui/icons-material/Publish";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -32,24 +34,24 @@ const page = ({ params }) => {
   };
 
   const handleUpdate = async () => {
-    // const updatedContent = new FileContent({
-    //   ...markdown,
-    //   name: initiativeName,
-    // });
+    const updatedContent = new FileContent({
+      ...markdown,
+      name: initiativeName,
+    });
 
-    // try {
-    //   await new Promise((resolve) => setTimeout(resolve, 5000));
-    //   ESG.updateFile(updatedContent);
-    //   toast.success("Updated. Please wait 30 seconds to see the changes");
-    // } catch (error) {
-    //   toast.error("Failed to update document");
-    // }
+    toast.loading("Updating the document", {
+      duration: 5000,
+    });
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      ESG.updateFile(updatedContent);
+      toast.success("Updated. Please wait 30 seconds to see the changes");
+    } catch (error) {
+      toast.error("Failed to update document");
+    }
 
     router.back();
-    // toast.loading("Updating the document", {
-    //   duration: 5000,
-    //   position: "top-right",
-    // });
   };
 
   const handleDelete = async () => {
@@ -57,7 +59,7 @@ const page = ({ params }) => {
     toast.loading("Deleting the document", {
       duration: 5000,
     });
-    
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       await ESG.deleteFile(updatedContent);
@@ -77,60 +79,88 @@ const page = ({ params }) => {
   }, []);
   return (
     <div className="">
-      <div className="flex justify-between m-3">
+      <div className="flex justify-between mb-5 ">
         <div>
-          <label htmlFor="initiativeName">Name of Initiative</label>
-          <input type="text" placeholder="Initiative Name" value={initiativeName} className="border-2 p-2 border-black/25 font-bold rounded-lg mx-3" onChange={(e) => setInitiativeName(e.value)} />
+          <Paper
+            sx={{
+              width: "400px",
+              borderRadius: "11px",
+              "@media (maxWidth: 600px)": {
+                width: "100%",
+              },
+            }}
+          >
+            <OutlinedInput
+              defaultValue=""
+              fullWidth
+              placeholder={"Enter Initiative"}
+              sx={{
+                "&.Mui-focused": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "3px solid #6366f1",
+                    transition: "0.3s ease-in-out",
+                  },
+                },
+                "&:hover": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "3px solid #6366f1",
+                    transition: "0.3s ease-in-out",
+                  },
+                },
+                borderRadius: "10px",
+              }}
+              value={initiativeName}
+              onChange={(e) => setInitiativeName(e.value)}
+            />
+          </Paper>
         </div>
-        <div>
+        <div style={{ display: "flex", alignItems: "baseline" }}>
           <Button
-            variant="outlined"
+            variant="text"
             style={{
-              backgroundColor: "#6366F1",
+              color: "black",
               padding: "8px 20px",
-              margin: "0 5px",
+              marginLeft: "5px",
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: "600",
-              marginTop: "16px",
-              color: "white",
             }}
+            startIcon={<PublishIcon />}
             onClick={handleUpdate}
           >
-            Submit
+            Publish
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             style={{
-              backgroundColor: "#6366F1",
+              color: "black",
               padding: "8px 20px",
-              margin: "0 5px",
+              marginLeft: "5px",
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: "600",
-              marginTop: "16px",
-              color: "white",
             }}
+            startIcon={<DeleteIcon />}
             onClick={handleDelete}
           >
             Delete
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             style={{
-              backgroundColor: "#6366F1",
+              color: "black",
               padding: "8px 20px",
-              margin: "0 5px",
+              marginLeft: "5px",
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: "600",
-              marginTop: "16px",
-              color: "white",
             }}
             startIcon={<ArrowBackIcon />}
-            onClick={handleUpdate}
+            onClick={() => {
+              router.back();
+            }}
           >
-             Back
+            Back
           </Button>
         </div>
       </div>
