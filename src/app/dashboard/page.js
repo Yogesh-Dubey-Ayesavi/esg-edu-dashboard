@@ -5,7 +5,7 @@ import DonutChart from "../../components/charts/DonutChart";
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
-// import SalesChart from "@/components/charts/SalesChart";
+import SalesChart from "@/components/charts/SalesChart";
 
 const page = () => {
   const [reRender, setReRender] = useState(false);
@@ -81,4 +81,4 @@ export default page;
           },
         ]}
         sx={{ height: "100%", width: "70%" }}
-      /> */
+/> */
