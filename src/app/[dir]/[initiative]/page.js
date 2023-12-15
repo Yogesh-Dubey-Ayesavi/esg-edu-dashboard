@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Button } from "@mui/material";
 import _ from "lodash";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -21,9 +22,7 @@ const page = ({ params }) => {
   }
 
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
-  const [initiativeName, setInitiativeName] = useState(
-    _.startCase(params.initiative)
-  );
+  const [initiativeName, setInitiativeName] = useState(_.startCase(params.initiative));
   const router = useRouter();
   const handleEditorChange = (value) => {
     setMarkdown((prevMarkdown) => ({
@@ -33,21 +32,24 @@ const page = ({ params }) => {
   };
 
   const handleUpdate = async () => {
-    const updatedContent = new FileContent({
-      ...markdown,
-      name: initiativeName,
-    });
-    router.push("/dashboard");
-    toast.loading("Updating the document", {
-      duration: 5000,
-    });
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      ESG.updateFile(updatedContent);
-      toast.success("Updated. Please wait 30 seconds to see the changes");
-    } catch (error) {
-      toast.error("Failed to update document");
-    }
+    // const updatedContent = new FileContent({
+    //   ...markdown,
+    //   name: initiativeName,
+    // });
+
+    // try {
+    //   await new Promise((resolve) => setTimeout(resolve, 5000));
+    //   ESG.updateFile(updatedContent);
+    //   toast.success("Updated. Please wait 30 seconds to see the changes");
+    // } catch (error) {
+    //   toast.error("Failed to update document");
+    // }
+
+    router.back();
+    // toast.loading("Updating the document", {
+    //   duration: 5000,
+    //   position: "top-right",
+    // });
   };
 
   const handleDelete = async () => {
@@ -55,10 +57,11 @@ const page = ({ params }) => {
     toast.loading("Deleting the document", {
       duration: 5000,
     });
+    
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      router.push("/");
-      ESG.updateFile(updatedContent);
+      await ESG.deleteFile(updatedContent);
+      router.back();
       toast.success("Deleted. Please wait 30 seconds to see the changes");
     } catch (error) {
       toast.error("Failed to delete document");
@@ -77,13 +80,7 @@ const page = ({ params }) => {
       <div className="flex justify-between m-3">
         <div>
           <label htmlFor="initiativeName">Name of Initiative</label>
-          <input
-            type="text"
-            placeholder="Initiative Name"
-            value={initiativeName}
-            className="border-2 p-2 border-black/25 font-bold rounded-lg mx-3"
-            onChange={(e) => setInitiativeName(e.value)}
-          />
+          <input type="text" placeholder="Initiative Name" value={initiativeName} className="border-2 p-2 border-black/25 font-bold rounded-lg mx-3" onChange={(e) => setInitiativeName(e.value)} />
         </div>
         <div>
           <Button
@@ -96,7 +93,7 @@ const page = ({ params }) => {
               textTransform: "none",
               fontWeight: "600",
               marginTop: "16px",
-              color: '#000'
+              color: "white",
             }}
             onClick={handleUpdate}
           >
@@ -112,7 +109,7 @@ const page = ({ params }) => {
               textTransform: "none",
               fontWeight: "600",
               marginTop: "16px",
-              color: '#000'
+              color: "white",
             }}
             onClick={handleDelete}
           >
@@ -128,22 +125,17 @@ const page = ({ params }) => {
               textTransform: "none",
               fontWeight: "600",
               marginTop: "16px",
-              color: '#000'
+              color: "white",
             }}
+            startIcon={<ArrowBackIcon />}
             onClick={handleUpdate}
           >
-            Go Back
+             Back
           </Button>
         </div>
       </div>
       <div data-color-mode="light">
-        <MDEditor
-          value={markdown.content}
-          className="my-1"
-          height={750}
-          style={{ padding: "1.5rem" }}
-          onChange={handleEditorChange}
-        />
+        <MDEditor value={markdown.content} className="my-1" height={750} style={{ padding: "1.5rem" }} onChange={handleEditorChange} />
       </div>
     </div>
   );

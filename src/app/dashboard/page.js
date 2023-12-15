@@ -5,6 +5,7 @@ import DonutChart from "../../components/charts/DonutChart";
 import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
+// import SalesChart from "@/components/charts/SalesChart";
 
 const page = () => {
   const [reRender, setReRender] = useState(false);
@@ -34,7 +35,7 @@ const page = () => {
             setReRender((prev) => !prev);
           }}
         >
-          Sync
+          Sync All
         </Button>
       </div>
       <Box
@@ -43,7 +44,7 @@ const page = () => {
           gap: "20px",
           alignItems: "flex-end",
           flexDirection: "row",
-          "@media (maxWidth: 1130px)": {
+          "@media (max-width: 1130px)": {
             flexDirection: "column",
             alignItems: "flex-start",
           },
@@ -53,7 +54,7 @@ const page = () => {
           sx={{
             height: "100%",
             width: "60%",
-            "@media (maxWidth: 1130px)": {
+            "@media (max-width: 1130px)": {
               width: "100%",
             },
           }}
@@ -69,7 +70,28 @@ const page = () => {
           reRender={reRender}
         />
       </Box>
-    </>);
+      {/* <SalesChart
+        reRender={reRender}
+        chartSeries={[
+          {
+            name: "This year",
+            data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
+          },
+        ]}
+        sx={{ height: "100%", width: "100%" }}
+      /> */}
+    </>
+  );
 };
 
 export default page;
+
+/* <SalesChart
+        chartSeries={[
+          {
+            name: "This year",
+            data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
+          },
+        ]}
+        sx={{ height: "100%", width: "70%" }}
+/> */

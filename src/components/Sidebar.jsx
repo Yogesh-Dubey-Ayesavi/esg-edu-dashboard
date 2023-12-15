@@ -132,7 +132,7 @@ function Sidebar(props) {
               marginBottom: "5px",
             }}
           >
-            <Link style={{ width: "100%" }} href={tab_urls[index]}>
+            <Link style={{ width: "100%", textDecoration: "none" }} href={tab_urls[index]}>
               <ListItemButton
                 onClick={() => handleTabClick(index)}
                 sx={{
@@ -209,7 +209,7 @@ function Sidebar(props) {
 
   // Remove this const when copying and pasting into your project.
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window().document.body : null;
 
   return (
     <ThemeProvider theme={theme}>
