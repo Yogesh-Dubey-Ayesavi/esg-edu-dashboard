@@ -9,6 +9,9 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import _ from "lodash";
 import ESG from "@/lib/esg-helper";
+import { Button, OutlinedInput, Paper } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PublishIcon from "@mui/icons-material/Publish";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -35,9 +38,7 @@ const Page = ({ params }) => {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       router.push("/dashboard/manage-initiatives");
       ESG.createFile(fileContentData);
-      toast.success(
-        "Document Created. Please wait 30 seconds to see the changes"
-      );
+      toast.success("Document Created. Please wait 30 seconds to see the changes");
     } catch (error) {
       toast.error("Failed to create document");
     }
@@ -53,37 +54,74 @@ const Page = ({ params }) => {
 
   return (
     <div className="">
-      <div className="flex justify-between m-3">
-      <label htmlFor="initiativeName">Name of Initiative</label>
-        <input
-          type="text"
-          placeholder="Initiative Name"
-          ref={initiativeNameRef}
-          className="border-2 p-2 border-black/25 font-bold rounded-lg"
-        />
-        <div>
-          <button
-            className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+      <div className="flex justify-between mb-5">
+        <Paper
+          sx={{
+            width: "400px",
+            borderRadius: "11px",
+            "@media (maxWidth: 600px)": {
+              width: "100%",
+            },
+          }}
+        >
+          <OutlinedInput
+            defaultValue=""
+            fullWidth
+            placeholder={"Enter Initiative"}
+            sx={{
+              "&.Mui-focused": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "3px solid #6366f1",
+                  transition: "0.3s ease-in-out",
+                },
+              },
+              "&:hover": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "3px solid #6366f1",
+                  transition: "0.3s ease-in-out",
+                },
+              },
+              borderRadius: "10px",
+            }}
+            ref={initiativeNameRef}
+          />
+        </Paper>
+        <div style={{ display: "flex", alignItems: "baseline" }}>
+          <Button
+            variant="text"
+            style={{
+              color: "black",
+              padding: "8px 20px",
+              marginLeft: "5px",
+              borderRadius: "12px",
+              textTransform: "none",
+              fontWeight: "600",
+            }}
             onClick={createInitiative}
+            startIcon={<PublishIcon />}
           >
-            Submit
-          </button>
-          <button
-            className="border-2 mx-1 border-black/25 font-bold rounded-lg py-2 px-3 bg-violet-400 hover:bg-violet-500 transition-colors ease-linear"
+            Create
+          </Button>
+
+          <Button
+            variant="text"
+            style={{
+              color: "black",
+              padding: "8px 20px",
+              marginLeft: "5px",
+              borderRadius: "12px",
+              textTransform: "none",
+              fontWeight: "600",
+            }}
+            startIcon={<ArrowBackIcon />}
             onClick={router.back}
           >
-            Go Back
-          </button>
+            Back
+          </Button>
         </div>
       </div>
       <div data-color-mode="light">
-        <MDEditor
-          value={markdown}
-          className="my-1"
-          height={750}
-          style={{ padding: "1.5rem" }}
-          onChange={handleEditorChange}
-        />
+        <MDEditor value={markdown} className="my-1" height={750} style={{ padding: "1.5rem" }} onChange={handleEditorChange} />
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const page = () => {
     handleSignOut();
   });
 
-  return <h1 className="text-3xl font-bold text-center">Loggin Out</h1>;
+  return <h1 className="text-3xl font-bold text-center">Logging Out</h1>;
 };
 
 export default page;
