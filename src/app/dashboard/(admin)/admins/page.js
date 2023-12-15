@@ -7,13 +7,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
-import { useRouter } from "next/navigation";
-import InvitePopUp from '@/components/InvitePopUp';
+import InvitePopUp from "@/components/InvitePopUp";
 
 const DataTable = () => {
   const theme = useTheme();
   const isSmOrDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const router = useRouter();
 
   const columns = [
     { field: "id", headerName: "Id", width: isSmOrDown ? 100 : 250, sortable: false },
@@ -59,7 +57,6 @@ const DataTable = () => {
     setOpen(false);
   };
 
-
   return (
     <div style={{ height: "100vh" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
@@ -85,7 +82,7 @@ const DataTable = () => {
             fontWeight: "600",
           }}
           size="large"
-          onClick={()=>{
+          onClick={() => {
             handleOpen();
           }}
         >
