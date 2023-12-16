@@ -1,56 +1,24 @@
 "use client";
 
-import { useState, useLayoutEffect } from "react";
+import { useState } from "react";
 import { Search } from "@/components/Search";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  Box,
-  Button,
-  IconButton,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
-import InvitePopUp from "@/components/InvitePopUp";
-import ESG from "@/lib/esg-helper";
-import { Pattaya } from "next/font/google";
+import { useRouter } from "next/navigation";
+import InvitePopUp from '@/components/InvitePopUp';
 
 const DataTable = () => {
   const theme = useTheme();
   const isSmOrDown = useMediaQuery(theme.breakpoints.down("sm"));
-  const [admins, setAdmins] = useState([]);
-
-  useLayoutEffect(() => {
-    const fetchAdmins = async () => {
-      const admins = await ESG.getAdmins();
-      setAdmins(admins);
-    };
-    fetchAdmins();
-  }, []);
+  const router = useRouter();
 
   const columns = [
-    {
-      field: "id",
-      headerName: "Id",
-      width: isSmOrDown ? 100 : 250,
-      sortable: false,
-      valueFormatter: (params) => (params.id).substr(0, 5) + "..."
-    },
-    {
-      field: "name",
-      headerName: "Name",
-      width: isSmOrDown ? 150 : 250,
-      sortable: false,
-    },
-    {
-      field: "created_at",
-      headerName: "Created At",
-      width: isSmOrDown ? 150 : 250,
-      sortable: false,
-      valueFormatter: (params) => new Date(params.value).toLocaleDateString()
-    },
+    { field: "id", headerName: "Id", width: isSmOrDown ? 100 : 250, sortable: false },
+    { field: "name", headerName: "Name", width: isSmOrDown ? 150 : 250, sortable: false },
+    { field: "createdAt", headerName: "Created At", width: isSmOrDown ? 150 : 250, sortable: false },
     {
       field: "action",
       headerName: "Actions",
@@ -91,16 +59,10 @@ const DataTable = () => {
     setOpen(false);
   };
 
+
   return (
     <div style={{ height: "100vh" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
         <Typography
           style={{
             fontWeight: "bold",
@@ -123,7 +85,7 @@ const DataTable = () => {
             fontWeight: "600",
           }}
           size="large"
-          onClick={() => {
+          onClick={()=>{
             handleOpen();
           }}
         >
@@ -144,7 +106,7 @@ const DataTable = () => {
         }}
       >
         <DataGrid
-          rows={admins}
+          rows={rows}
           columns={[...columns]}
           disableColumnMenu={true}
           initialState={{

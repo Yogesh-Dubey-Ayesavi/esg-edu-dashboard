@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { Chart } from "./chart";
-import { EsgSDK } from "esg-sdk";
-
-const ESG = EsgSDK.initialize(process.env.NEXT_PUBLIC_SDKAPI);
+import ESG from "@/lib/esg-helper";
 
 const Page = ({ sx, reRender }) => {
   const [chartData, setChartData] = useState({
@@ -17,7 +15,6 @@ const Page = ({ sx, reRender }) => {
     const fetchData = async () => {
       try {
         const data = await ESG.getViewsByCityAndPage();
-        // console.log(data);
         const uniqueEntries = Array.from(new Set(data.map((entry) => entry.city_name + " | " + entry.page_name)));
         const seriesData = uniqueEntries.map((uniqueEntry) => {
           const viewsSum = data.filter((entry) => entry.city_name + " | " + entry.page_name === uniqueEntry).reduce((sum, entry) => sum + parseInt(entry.views), 0);
@@ -36,35 +33,35 @@ const Page = ({ sx, reRender }) => {
     fetchData();
   }, [reRender]);
 
-  // console.log("Options:", chartData.labels);
-  // console.log("Series:", chartData.series);
-
   return (
     <Card sx={sx}>
       <CardHeader title={<p style={{ fontWeight: "bold", fontSize: "15px" }}>Traffic Source</p>} />
       <CardContent>
-        <Chart
-          options={{
-            labels: chartData.labels,
-            responsive: [
-              {
-                breakpoint: 768, // width at which the chart becomes responsive
-                options: {
-                  chart: {
-                    width: "100%",
+        <div style={{display: "flex", justifyContent: "center"}}>
+          <Chart
+            options={{
+              labels: chartData.labels,
+              responsive: [
+                {
+                  breakpoint: 1130, // width at which the chart becomes responsive
+                  options: {
+                    chart: {
+                      width: "100%",
+                      height: "",
+                    },
                   },
                 },
+              ],
+              legend: {
+                show: false,
               },
-            ],
-            legend: {
-              show: false,
-            },
-          }}
-          series={chartData.series}
-          type="donut"
-          width="410"
-          height=""
-        />
+            }}
+            series={chartData.series}
+            type="donut"
+            width="410"
+            height=""
+          />
+        </div>
       </CardContent>
     </Card>
   );

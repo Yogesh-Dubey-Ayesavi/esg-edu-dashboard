@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  EnvironmentInitiative,
-  SocialInitiative,
-  GovernanceInitiative,
-} from "@/components/ESGTabs/index";
+import { EnvironmentInitiative, SocialInitiative, GovernanceInitiative } from "@/components/ESGTabs/index";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -14,7 +10,6 @@ import { Search } from "@/components/Search";
 import { Button } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const tabStyle = {
   fontWeight: "600 !important",
@@ -27,16 +22,8 @@ function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ display: "flex", justifyContent: "left" }}>{children}</Box>
-      )}
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+      {value === index && <Box sx={{ display: "flex", justifyContent: "left" }}>{children}</Box>}
     </div>
   );
 }
@@ -79,7 +66,6 @@ export default function TabsDemo() {
           aria-label="scrollable force tabs example"
           TabIndicatorProps={{
             style: {
-              // display: "none",
               borderBottom: "none !important",
             },
           }}
@@ -123,7 +109,7 @@ export default function TabsDemo() {
               router.push(`/${urls[value]}`);
             }}
           >
-            <Link href={`${value}`}>Add</Link>
+            Add
           </Button>
         </Box>
 
