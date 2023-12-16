@@ -15,7 +15,8 @@ const WhatsNewPanel = (props) => {
       <Drawer
         sx={{
           "& .MuiDrawer-paper": {
-            width: "30%",
+            width: isWide ? 500 : "100%",
+            maxHeight: isWide ? "100vh" : "50%",
           },
         }}
         anchor={isWide ? "right" : "bottom"}
@@ -26,7 +27,7 @@ const WhatsNewPanel = (props) => {
       >
         <Box p={2}>
           <Card sx={{ minWidth: "100%" }}>
-            <CardMedia sx={{ height: 375, width: 450 }} image="https://webapi.earthood.in/media/assets/earthscope/files/24e8569b-dc33-4603-b8ed-8c2f18f6470d5163e6dd-89cb-4133-ba92-b3c3_cIMTb40.png" />
+            <CardMedia sx={{ height: 375, width: 450, backgroundSize: "cover" }} image="https://webapi.earthood.in/media/assets/earthscope/files/24e8569b-dc33-4603-b8ed-8c2f18f6470d5163e6dd-89cb-4133-ba92-b3c3_cIMTb40.png" />
             <CardContent>
               <p gutterBottom variant="h6" component="div">
                 ESG reporting is about companies sharing how they handle Environmental, Social, and Governance matters, showing their impact on the planet, people, and ethical practices. It helps
