@@ -1,32 +1,35 @@
 "use client";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SyncIcon from "@mui/icons-material/Sync";
 
 const columns = [
-  { id: "fileName", label: "File Names", minWidth: 250, align: "left" },
-  { id: "action", label: "", minWidth: 250, align: "center" },
+  { id: "fileName", label: "Initiative Name", minWidth: 250, align: "left" },
+  { id: "action", label: "", minWidth: 250, align: "right" },
 ];
 
 import ESG from "@/lib/esg-helper";
 
-const EnvironmentInitiative = ({}) => {
+const ESGTable = ({ type }) => {
   const [initiatives, setInitiatives] = useState([]);
   const [page, setPage] = useState(0);
+  const [reRender, setReRender] = useState(false);
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const router = useRouter();
 
   useEffect(() => {
     const getData = async () => {
-      const files = await ESG.fetchFiles("environment");
+      const files = await ESG.fetchFiles(type);
       setInitiatives(files.map((file, index) => ({ ...file, id: index + 1 })));
     };
     getData();
-  }, []);
+  }, [type, reRender]);
 
   const rows = initiatives.map((initiative) => ({
     id: initiative.id,
@@ -58,11 +61,32 @@ const EnvironmentInitiative = ({}) => {
         <Table sx={{ minWidth: 800 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
-                  {column.label}
-                </TableCell>
-              ))}
+              {columns.map((column, index) => {
+                if (index === 1) {
+                  return (
+                    <>
+                      <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
+                        <Button
+                          color="inherit"
+                          size="small"
+                          startIcon={<SyncIcon />}
+                          style={{ color: "grey" }}
+                          onClick={() => {
+                            setReRender((prev) => !prev);
+                          }}
+                        >
+                          Sync
+                        </Button>
+                      </TableCell>
+                    </>
+                  );
+                }
+                return (
+                  <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
+                    {column.label}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -104,4 +128,4 @@ const EnvironmentInitiative = ({}) => {
   );
 };
 
-export default EnvironmentInitiative;
+export default ESGTable;

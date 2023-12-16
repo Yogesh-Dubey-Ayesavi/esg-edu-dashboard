@@ -32,16 +32,17 @@ import theme from "../theme/theme"; // Import the created theme
 import { NavAvatar } from "./NavAvatar";
 import { Logo } from "./logo";
 
-import loggedIn from "@/lib/is-logged-in";
+// import loggedIn from "@/lib/is-logged-in";
 
 const drawerWidth = 280;
 
-const isLoggedIn = async () => {
-  return await loggedIn();
-};
-const tabs = ["Overview", "Manage Initiatives", "Administrators", "Settings", `${!isLoggedIn ? "Login" : "Logout"}`];
+// const isLoggedIn = async () => {
+//   return await loggedIn();
+// };
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/settings", `${!isLoggedIn ? "/login" : "/logout"}`];
+const tabs = ["Overview", "Manage Initiatives", "Administrators", "Settings"];
+
+const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/settings"];
 
 const iconStyle = {
   color: "white",
@@ -180,22 +181,14 @@ function Sidebar(props) {
                     }}
                   />
                 )}
-                {!isLoggedIn && index === 4 && (
-                  <HttpsIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {isLoggedIn && index === 4 && (
+                {/* {isLoggedIn && index === 4 && (
                   <LogoutIcon
                     style={{
                       ...iconStyle,
                       color: selectedTab === index ? "#6366f1" : "#959ca6",
                     }}
                   />
-                )}
+                )} */}
                 <Typography
                   sx={{
                     fontWeight: selectedTab === index ? "bold" : "normal",

@@ -21,9 +21,18 @@ const Page = ({ params }) => {
   const router = useRouter();
   const [markdown, setMarkdown] = useState("# Start Editing ");
   const [initiativeName, setInitiativeName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Function to create an initiative
   const createInitiative = async () => {
+    setLoading(true);
+
+    if (initiativeName === "") {
+      toast.error("Initiative name cannot be empty.");
+      setLoading(false);
+      return;
+    }
+
     const fileContentData = new FileContent({
       sha: "",
       path: `${params.dir}/${_.kebabCase(initiativeName)}`,
@@ -31,17 +40,22 @@ const Page = ({ params }) => {
       type: "file",
       content: markdown.content || "# Click to start editing",
     });
+
     toast.loading("Creating document", {
       duration: 5000,
     });
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      router.push("/dashboard/manage-initiatives");
       ESG.createFile(fileContentData);
+      setLoading(false);
+      router.push("/dashboard/manage-initiatives");
       toast.success("Document Created. Please wait 30 seconds to see the changes");
     } catch (error) {
       toast.error("Failed to create document");
     }
+
+    setLoading(false);
   };
 
   const handleEditorChange = (value) => {
@@ -92,7 +106,7 @@ const Page = ({ params }) => {
           <Button
             variant="text"
             style={{
-              color: "black",
+              color: loading ? "grey": "black",
               padding: "8px 20px",
               marginLeft: "5px",
               borderRadius: "12px",
@@ -101,6 +115,7 @@ const Page = ({ params }) => {
             }}
             onClick={createInitiative}
             startIcon={<PublishIcon />}
+            disabled={loading}
           >
             Create
           </Button>

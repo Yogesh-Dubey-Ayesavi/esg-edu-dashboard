@@ -25,7 +25,9 @@ const page = ({ params }) => {
 
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
   const [initiativeName, setInitiativeName] = useState(_.startCase(params.initiative));
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleEditorChange = (value) => {
     setMarkdown((prevMarkdown) => ({
       ...prevMarkdown,
@@ -34,6 +36,7 @@ const page = ({ params }) => {
   };
 
   const handleUpdate = async () => {
+    setLoading(true);
     const updatedContent = new FileContent({
       ...markdown,
       name: initiativeName,
@@ -50,11 +53,12 @@ const page = ({ params }) => {
     } catch (error) {
       toast.error("Failed to update document");
     }
-
+    setLoading(false);
     router.back();
   };
 
   const handleDelete = async () => {
+    setLoading(true);
     const updatedContent = new FileContent({ ...markdown });
     toast.loading("Deleting the document", {
       duration: 5000,
@@ -68,6 +72,7 @@ const page = ({ params }) => {
     } catch (error) {
       toast.error("Failed to delete document");
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -77,7 +82,7 @@ const page = ({ params }) => {
     };
     fetchData();
   }, []);
-  
+
   return (
     <div className="">
       <div className="flex justify-between mb-5 ">
@@ -99,7 +104,7 @@ const page = ({ params }) => {
           <Button
             variant="text"
             style={{
-              color: "black",
+              color: loading ? "grey" : "black",
               padding: "8px 20px",
               marginLeft: "5px",
               borderRadius: "12px",
@@ -108,13 +113,14 @@ const page = ({ params }) => {
             }}
             startIcon={<PublishIcon />}
             onClick={handleUpdate}
+            disabled={loading}
           >
             Publish
           </Button>
           <Button
             variant="text"
             style={{
-              color: "black",
+              color: loading ? "grey" : "black",
               padding: "8px 20px",
               marginLeft: "5px",
               borderRadius: "12px",
@@ -123,6 +129,7 @@ const page = ({ params }) => {
             }}
             startIcon={<DeleteIcon />}
             onClick={handleDelete}
+            disabled={loading}
           >
             Delete
           </Button>

@@ -1,6 +1,5 @@
 "use client";
 
-import { EnvironmentInitiative, SocialInitiative, GovernanceInitiative } from "@/components/ESGTabs/index";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -10,6 +9,7 @@ import { Search } from "@/components/Search";
 import { Button } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useRouter } from "next/navigation";
+import ESGTable from "@/components/ESGTabs/ESGTable";
 
 const tabStyle = {
   fontWeight: "600 !important",
@@ -115,13 +115,13 @@ export default function TabsDemo() {
 
         <Box>
           <CustomTabPanel value={value} index={0}>
-            <EnvironmentInitiative />
+            <ESGTable type="environment"  />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <SocialInitiative />
+            <ESGTable type="social"  />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <GovernanceInitiative />
+            <ESGTable type="governance"  />
           </CustomTabPanel>
         </Box>
       </Box>

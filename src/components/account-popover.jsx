@@ -1,19 +1,15 @@
-import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from "@mui/material";
-// import { useAuth } from "src/hooks/use-auth";
+import ESG from "@/lib/esg-helper";
 
 export const AccountPopover = (props) => {
-  const { anchorEl, onClose, open } = props;
+  const { anchorEl, onClose, open, name } = props;
   const router = useRouter();
-  // const auth = useAuth();
 
-  const handleSignOut = useCallback(() => {
-    onClose?.();
-    // auth.signOut();
-    // router.push("/auth/login");
-  // }, [onClose, auth, router]);
-  }, [onClose,  router]);
+  const handleSignOut = async () => {
+    ESG.signOut();
+    router.push("/login");
+  };
 
   return (
     <Popover
@@ -32,9 +28,11 @@ export const AccountPopover = (props) => {
           px: 2,
         }}
       >
-        <Typography variant="overline" style={{fontWeight: "600"}}>Account</Typography>
+        <Typography variant="overline" style={{ fontWeight: "600" }}>
+          Account
+        </Typography>
         <Typography color="text.secondary" variant="body2">
-          Anika Visser
+          {name}
         </Typography>
       </Box>
       <Divider />
@@ -42,7 +40,7 @@ export const AccountPopover = (props) => {
         disablePadding
         dense
         sx={{
-          p: "8px",
+          padding: "5px 0px",
           "& > *": {
             borderRadius: 1,
           },
