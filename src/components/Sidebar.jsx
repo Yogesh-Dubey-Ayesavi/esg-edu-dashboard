@@ -231,7 +231,7 @@ function Sidebar(props) {
             },
           }}
         >
-          <img alt="" src="/assets/devias-kit-pro.png" />
+          <img alt="" src="/assets/dashboard.png" />
         </Box>
         <Button
           component="a"
