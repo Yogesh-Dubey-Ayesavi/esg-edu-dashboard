@@ -2,13 +2,13 @@
 
 // import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 // import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, SvgIcon, Typography } from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
+import ESG from "@/lib/esg-helper";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useState, useEffect } from "react";
 import { Chart } from "./chart";
-import SyncIcon from "@mui/icons-material/Sync";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
-const useChartOptions = () => {
+const useChartOptions = (categories) => {
   const theme = useTheme();
 
   return {
@@ -35,7 +35,7 @@ const useChartOptions = () => {
         show: false,
       },
     },
-    colors: [theme.palette.primary.main, alpha(theme.palette.primary.main, 0.25)],
+    colors: ["#6366F1"],
     dataLabels: {
       enabled: false,
     },
@@ -58,7 +58,7 @@ const useChartOptions = () => {
       },
     },
     legend: {
-      show: false,
+      show: true,
     },
     plotOptions: {
       bar: {
@@ -82,7 +82,7 @@ const useChartOptions = () => {
         color: theme.palette.divider,
         show: true,
       },
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      categories: categories,
       labels: {
         offsetY: 5,
         style: {
@@ -92,7 +92,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => (value > 0 ? `${value}` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary,
@@ -103,17 +103,40 @@ const useChartOptions = () => {
 };
 
 const SalesChart = (props) => {
-  const { chartSeries } = props;
-  const chartOptions = useChartOptions();
+  const { reRender } = props;
+
+  const [chartData, setChartData] = useState({
+    categories: [],
+    views: [],
+  });
+
+  const chartOptions = useChartOptions(chartData.categories);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await ESG.getViewsByPage();
+        const categories = data.map((entry) => {
+          const parts = entry.page_name.split("|");
+          return parts[0].trim();
+        });
+        const views = data.map((entry) => parseInt(entry.views));
+
+        setChartData({
+          categories: categories,
+          views: views,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [reRender]);
 
   return (
     <Card>
       <CardHeader
-        action={
-          <Button color="inherit" size="small" startIcon={<SyncIcon />} style={{ color: "grey" }}>
-            Sync
-          </Button>
-        }
         title={
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             Page Views
@@ -121,14 +144,8 @@ const SalesChart = (props) => {
         }
       />
       <CardContent>
-        <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
+        <Chart height={350} options={chartOptions} series={[{ data: chartData.views, name: "Views" }]} type="bar" width="100%" />
       </CardContent>
-      <Divider />
-      <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button style={{ color: "grey" }} color="inherit" endIcon={<ArrowRightAltIcon />} size="small">
-          Overview
-        </Button>
-      </CardActions>
     </Card>
   );
 };

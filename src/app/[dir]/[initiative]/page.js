@@ -8,8 +8,11 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import _ from "lodash";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PublishIcon from "@mui/icons-material/Publish";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -21,10 +24,10 @@ const page = ({ params }) => {
   }
 
   const [markdown, setMarkdown] = useState(" ### Please Wait...");
-  const [initiativeName, setInitiativeName] = useState(
-    _.startCase(params.initiative)
-  );
+  const [initiativeName, setInitiativeName] = useState(_.startCase(params.initiative));
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleEditorChange = (value) => {
     setMarkdown((prevMarkdown) => ({
       ...prevMarkdown,
@@ -33,14 +36,16 @@ const page = ({ params }) => {
   };
 
   const handleUpdate = async () => {
+    setLoading(true);
     const updatedContent = new FileContent({
       ...markdown,
       name: initiativeName,
     });
-    router.push("/dashboard");
+
     toast.loading("Updating the document", {
       duration: 5000,
     });
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       ESG.updateFile(updatedContent);
@@ -48,21 +53,26 @@ const page = ({ params }) => {
     } catch (error) {
       toast.error("Failed to update document");
     }
+    setLoading(false);
+    router.back();
   };
 
   const handleDelete = async () => {
+    setLoading(true);
     const updatedContent = new FileContent({ ...markdown });
     toast.loading("Deleting the document", {
       duration: 5000,
     });
+
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      router.push("/");
-      ESG.updateFile(updatedContent);
+      await ESG.deleteFile(updatedContent);
+      router.back();
       toast.success("Deleted. Please wait 30 seconds to see the changes");
     } catch (error) {
       toast.error("Failed to delete document");
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -72,78 +82,78 @@ const page = ({ params }) => {
     };
     fetchData();
   }, []);
+
   return (
     <div className="">
-      <div className="flex justify-between m-3">
+      <div className="flex justify-between mb-5 ">
         <div>
-          <label htmlFor="initiativeName">Name of Initiative</label>
-          <input
-            type="text"
-            placeholder="Initiative Name"
-            value={initiativeName}
-            className="border-2 p-2 border-black/25 font-bold rounded-lg mx-3"
-            onChange={(e) => setInitiativeName(e.value)}
-          />
-        </div>
-        <div>
-          <Button
-            variant="outlined"
+          <Typography
             style={{
-              backgroundColor: "#6366F1",
+              fontWeight: "bold",
+              fontSize: "2rem",
+              "@media (maxWidth:600px)": {
+                fontSize: "0.5rem",
+              },
+              marginBottom: "1em",
+            }}
+          >
+            {initiativeName}
+          </Typography>
+        </div>
+        <div style={{ display: "flex", alignItems: "baseline" }}>
+          <Button
+            variant="text"
+            style={{
+              color: loading ? "grey" : "black",
               padding: "8px 20px",
-              margin: "0 5px",
+              marginLeft: "5px",
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: "600",
-              marginTop: "16px",
-              color: '#000'
             }}
+            startIcon={<PublishIcon />}
             onClick={handleUpdate}
+            disabled={loading}
           >
-            Submit
+            Publish
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             style={{
-              backgroundColor: "#6366F1",
+              color: loading ? "grey" : "black",
               padding: "8px 20px",
-              margin: "0 5px",
+              marginLeft: "5px",
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: "600",
-              marginTop: "16px",
-              color: '#000'
             }}
+            startIcon={<DeleteIcon />}
             onClick={handleDelete}
+            disabled={loading}
           >
             Delete
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             style={{
-              backgroundColor: "#6366F1",
+              color: "black",
               padding: "8px 20px",
-              margin: "0 5px",
+              marginLeft: "5px",
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: "600",
-              marginTop: "16px",
-              color: '#000'
             }}
-            onClick={handleUpdate}
+            startIcon={<ArrowBackIcon />}
+            onClick={() => {
+              router.back();
+            }}
           >
-            Go Back
+            Back
           </Button>
         </div>
       </div>
       <div data-color-mode="light">
-        <MDEditor
-          value={markdown.content}
-          className="my-1"
-          height={750}
-          style={{ padding: "1.5rem" }}
-          onChange={handleEditorChange}
-        />
+        <MDEditor value={markdown.content} className="my-1" height={750} style={{ padding: "1.5rem" }} onChange={handleEditorChange} />
       </div>
     </div>
   );

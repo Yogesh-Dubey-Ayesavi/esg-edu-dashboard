@@ -1,20 +1,16 @@
 "use client";
 
-import {
-  EnvironmentInitiative,
-  SocialInitiative,
-  GovernanceInitiative,
-} from "@/components/ESGTabs/index";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Search } from "@/components/Search";
 import { Button } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import ESGTable from "@/components/ESGTabs/ESGTable";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 const tabStyle = {
   fontWeight: "600 !important",
@@ -27,16 +23,8 @@ function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ display: "flex", justifyContent: "left" }}>{children}</Box>
-      )}
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+      {value === index && <Box sx={{ display: "flex", justifyContent: "left" }}>{children}</Box>}
     </div>
   );
 }
@@ -50,6 +38,8 @@ function a11yProps(index) {
 
 export default function TabsDemo() {
   const [value, setValue] = useState(0);
+  const exportRef = useRef();
+
   const urls = ["environment", "social", "governance"];
   const router = useRouter();
 
@@ -79,7 +69,6 @@ export default function TabsDemo() {
           aria-label="scrollable force tabs example"
           TabIndicatorProps={{
             style: {
-              // display: "none",
               borderBottom: "none !important",
             },
           }}
@@ -98,7 +87,7 @@ export default function TabsDemo() {
         </Tabs>
       </Box>
 
-      <Box width="800px">
+      <Box>
         <Box
           sx={{
             display: "flex",
@@ -108,34 +97,56 @@ export default function TabsDemo() {
           }}
         >
           <Search placeholder={"Search file.."} />
-          <Button
-            variant="contained"
-            startIcon={<AddOutlinedIcon />}
-            style={{
-              backgroundColor: "#6366F1",
-              padding: "8px 20px",
-              borderRadius: "11px",
-              textTransform: "none",
-              fontWeight: "600",
-            }}
-            size="large"
-            onClick={() => {
-              router.push(`/${urls[value]}`);
-            }}
-          >
-            <Link href={`${value}`}>Add</Link>
-          </Button>
+          <Box>
+            <Button
+              variant="text"
+              startIcon={<GetAppIcon />}
+              style={{
+                color: "black",
+                padding: "8px 20px",
+                borderRadius: "11px",
+                textTransform: "none",
+                fontWeight: "600",
+                marginRight: "10px",
+              }}
+              size="large"
+              onClick={() => {
+                if (exportRef.current) {
+                  exportRef.current.link.click();
+                }
+              }}
+            >
+              Export to CSV
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddOutlinedIcon />}
+              style={{
+                backgroundColor: "#6366F1",
+                padding: "8px 20px",
+                borderRadius: "11px",
+                textTransform: "none",
+                fontWeight: "600",
+              }}
+              size="large"
+              onClick={() => {
+                router.push(`/${urls[value]}`);
+              }}
+            >
+              Add
+            </Button>
+          </Box>
         </Box>
 
         <Box>
           <CustomTabPanel value={value} index={0}>
-            <EnvironmentInitiative />
+            <ESGTable type="environment" exportRef={exportRef} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <SocialInitiative />
+            <ESGTable type="social" />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <GovernanceInitiative />
+            <ESGTable type="governance" />
           </CustomTabPanel>
         </Box>
       </Box>

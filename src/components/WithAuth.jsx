@@ -10,7 +10,7 @@ const WithAuth = ({ children }) => {
     const checkUser = async () => {
       const logged_in = await loggedIn();
       if (logged_in) {
-        return router.push("/dashboard");
+        console.log("User Logged In");
       } else {
         return router.push("/login");
       }
