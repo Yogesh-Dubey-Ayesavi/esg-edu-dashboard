@@ -4,12 +4,13 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Search } from "@/components/Search";
 import { Button } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useRouter } from "next/navigation";
 import ESGTable from "@/components/ESGTabs/ESGTable";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 const tabStyle = {
   fontWeight: "600 !important",
@@ -37,6 +38,8 @@ function a11yProps(index) {
 
 export default function TabsDemo() {
   const [value, setValue] = useState(0);
+  const exportRef = useRef();
+
   const urls = ["environment", "social", "governance"];
   const router = useRouter();
 
@@ -84,7 +87,7 @@ export default function TabsDemo() {
         </Tabs>
       </Box>
 
-      <Box width="800px">
+      <Box>
         <Box
           sx={{
             display: "flex",
@@ -94,34 +97,56 @@ export default function TabsDemo() {
           }}
         >
           <Search placeholder={"Search file.."} />
-          <Button
-            variant="contained"
-            startIcon={<AddOutlinedIcon />}
-            style={{
-              backgroundColor: "#6366F1",
-              padding: "8px 20px",
-              borderRadius: "11px",
-              textTransform: "none",
-              fontWeight: "600",
-            }}
-            size="large"
-            onClick={() => {
-              router.push(`/${urls[value]}`);
-            }}
-          >
-            Add
-          </Button>
+          <Box>
+            <Button
+              variant="text"
+              startIcon={<GetAppIcon />}
+              style={{
+                color: "black",
+                padding: "8px 20px",
+                borderRadius: "11px",
+                textTransform: "none",
+                fontWeight: "600",
+                marginRight: "10px",
+              }}
+              size="large"
+              onClick={() => {
+                if (exportRef.current) {
+                  exportRef.current.link.click();
+                }
+              }}
+            >
+              Export to CSV
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddOutlinedIcon />}
+              style={{
+                backgroundColor: "#6366F1",
+                padding: "8px 20px",
+                borderRadius: "11px",
+                textTransform: "none",
+                fontWeight: "600",
+              }}
+              size="large"
+              onClick={() => {
+                router.push(`/${urls[value]}`);
+              }}
+            >
+              Add
+            </Button>
+          </Box>
         </Box>
 
         <Box>
           <CustomTabPanel value={value} index={0}>
-            <ESGTable type="environment"  />
+            <ESGTable type="environment" exportRef={exportRef} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <ESGTable type="social"  />
+            <ESGTable type="social" />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <ESGTable type="governance"  />
+            <ESGTable type="governance" />
           </CustomTabPanel>
         </Box>
       </Box>

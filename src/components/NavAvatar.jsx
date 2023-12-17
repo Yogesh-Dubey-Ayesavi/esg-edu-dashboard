@@ -13,7 +13,7 @@ export const NavAvatar = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await ESG.getUserInfo();
-      console.log(data);
+      // console.log(data);
       setUserData({
         avatarUrl: data.user_metadata.avatar_url,
         name: data.user_metadata.full_name,

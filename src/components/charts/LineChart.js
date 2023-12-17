@@ -46,6 +46,18 @@ const Page = ({ sx, reRender }) => {
               categories: categories,
             },
             colors: ["#6366F1"],
+            // tooltip: {
+            //   enabled: true,
+            //   shared: true, // Enable shared tooltip for multiple series
+            //   intersect: false,
+            //   custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+            //     // Customize the tooltip content
+            //     const date = w.globals.labels[dataPointIndex];
+            //     const views = series[seriesIndex][dataPointIndex];
+
+            //     return '<div class="custom-tooltip">' + "<span>Date: " + date + "</span><br>" + "<span>Views: " + views + "</span>" + "</div>";
+            //   },
+            // },
           },
           series: [
             {
