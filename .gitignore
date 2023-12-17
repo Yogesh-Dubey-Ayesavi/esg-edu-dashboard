@@ -37,4 +37,4 @@ yarn-error.log*
 next-env.d.ts
 
 # api-initialize
-src/lib/esg-helper.js
+/src/lib/esg-helper.js
