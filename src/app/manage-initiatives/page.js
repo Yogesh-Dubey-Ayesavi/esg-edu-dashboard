@@ -88,65 +88,15 @@ export default function TabsDemo() {
       </Box>
 
       <Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "20px",
-          }}
-        >
-          <Search placeholder={"Search file.."} />
-          <Box>
-            <Button
-              variant="text"
-              startIcon={<GetAppIcon />}
-              style={{
-                color: "black",
-                padding: "8px 20px",
-                borderRadius: "11px",
-                textTransform: "none",
-                fontWeight: "600",
-                marginRight: "10px",
-              }}
-              size="large"
-              onClick={() => {
-                if (exportRef.current) {
-                  exportRef.current.link.click();
-                }
-              }}
-            >
-              Export to CSV
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<AddOutlinedIcon />}
-              style={{
-                backgroundColor: "#6366F1",
-                padding: "8px 20px",
-                borderRadius: "11px",
-                textTransform: "none",
-                fontWeight: "600",
-              }}
-              size="large"
-              onClick={() => {
-                router.push(`/${urls[value]}`);
-              }}
-            >
-              Add
-            </Button>
-          </Box>
-        </Box>
-
         <Box>
           <CustomTabPanel value={value} index={0}>
             <ESGTable type="environment" exportRef={exportRef} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <ESGTable type="social" />
+            <ESGTable type="social" exportRef={exportRef} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            <ESGTable type="governance" />
+            <ESGTable type="governance" exportRef={exportRef} />
           </CustomTabPanel>
         </Box>
       </Box>

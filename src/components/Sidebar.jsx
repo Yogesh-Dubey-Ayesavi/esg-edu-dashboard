@@ -32,17 +32,11 @@ import theme from "../theme/theme"; // Import the created theme
 import { NavAvatar } from "./NavAvatar";
 import { Logo } from "./logo";
 
-// import loggedIn from "@/lib/is-logged-in";
-
 const drawerWidth = 280;
-
-// const isLoggedIn = async () => {
-//   return await loggedIn();
-// };
 
 const tabs = ["Overview", "Manage Initiatives", "Administrators", "Settings"];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/settings"];
+const tab_urls = ["/", "/manage-initiatives", "/admins", "/settings"];
 
 const iconStyle = {
   color: "white",
@@ -236,7 +230,7 @@ function Sidebar(props) {
           }}
           endIcon={<LaunchIcon />}
           fullWidth
-          href="https://github.com/Yogesh-Dubey-Ayesavi"
+          href="https://github.com/Yogesh-Dubey-Ayesavi/esg-edu-dashboard"
           sx={{ mt: 2 }}
           target="_blank"
           variant="contained"
