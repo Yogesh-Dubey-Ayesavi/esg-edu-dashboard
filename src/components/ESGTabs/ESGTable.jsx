@@ -206,7 +206,7 @@ const ESGTable = ({ type, exportRef }) => {
                     router.push(
                       {
                         pathname: `/${row.path}`,
-                        query: { data: initiatives },
+                        query: { data: myObject },
                       },
                       `/${row.path}`
                     );
