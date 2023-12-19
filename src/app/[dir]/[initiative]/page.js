@@ -63,7 +63,6 @@ const page = ({ params }) => {
   const handleDelete = async () => {
     setLoading(true);
     const updatedContent = new InitiativeContent({ ...markdown });
-    // console.log(updatedContent);
     toast.loading("Deleting the document", {
       duration: 5000,
     });
