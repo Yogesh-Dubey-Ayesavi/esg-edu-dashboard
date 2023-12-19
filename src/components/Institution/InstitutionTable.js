@@ -122,7 +122,7 @@ const ESGTable = ({ handleClickOpen }) => {
               Export to CSV
             </CSVLink>
           </Button>
-          <Button
+          {/* <Button
             variant="contained"
             startIcon={<AddOutlinedIcon />}
             style={{
@@ -138,7 +138,7 @@ const ESGTable = ({ handleClickOpen }) => {
             }}
           >
             Add
-          </Button>
+          </Button> */}
         </Box>
       </Box>
       <Paper

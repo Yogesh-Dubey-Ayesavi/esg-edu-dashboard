@@ -5,7 +5,24 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
-const InstitutionForm = ({ handleSubmit }) => {
+const InstitutionForm = () => {
+  const handleSubmit = async (formValues) => {
+    const userData = await ESG.getUserInfo();
+
+    const data = formValues;
+    data["handler_id"] = userData?.id;
+    setOpen(false);
+    try {
+      const response = await ESG.registerInstitution(new InstitutionModel(data));
+
+      if (response) {
+        toast.success("Institution has been successfully registered.");
+      }
+    } catch (e) {
+      toast.error(e);
+    }
+  };
+
   const [formValues, setFormValues] = useState({
     name: "",
     city: "",

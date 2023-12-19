@@ -7,6 +7,7 @@ import { useCallback, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import Google from "../../../lottie/google.json";
 import Lottie from "lottie-react";
+import LoginTooltip from "../../../components/LoginTooltip";
 
 import ESG from "@/lib/esg-helper";
 
@@ -47,12 +48,12 @@ const Page = () => {
               <Typography variant="h4" sx={{ fontWeight: "bold" }}>
                 Login
               </Typography>
-              <Typography color="grey" variant="body2">
-                Don&apos;t have an account? &nbsp;
-                {/* <Link component={NextLink} href="/auth/register" underline="hover" variant="subtitle2">
-                  Register
-                </Link> */}
-              </Typography>
+              <span color="grey">
+                If you are signing in for the first time, you will be redirected to the ESG self-assessment.
+                <span>
+                  <LoginTooltip />
+                </span>
+              </span>
             </Stack>
             <Lottie animationData={Google} style={{ height: "200px", margin: "30px 0px" }} />
             <button
