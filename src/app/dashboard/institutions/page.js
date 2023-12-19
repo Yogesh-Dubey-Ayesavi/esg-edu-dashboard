@@ -1,10 +1,10 @@
 "use client";
 
-import AdministratorsTable from "@/components/Administrators/AdministratorsTable";
+import InstitutionFormDialog from "@/components/Institution/InstitutionFormDialog";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import InvitePopUp from "../../../../components/InvitePopUp";
+import InstitutionTable from "../../../components/Institution/InstitutionTable";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -30,10 +30,10 @@ export default function page() {
               },
             }}
           >
-            Administrators 
+            Institutions List
           </Typography>
-          <AdministratorsTable handleClickOpen={handleClickOpen} />
-          <InvitePopUp open={open} handleClose={handleClose} />
+          <InstitutionTable handleClickOpen={handleClickOpen} />
+          <InstitutionFormDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleClose} />
         </Box>
       </div>
     </>

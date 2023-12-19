@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FileContent } from "esg-sdk";
+import { FileContent, InitiativeContent } from "esg-sdk";
 import ESG from "@/lib/esg-helper";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Typography } from "@mui/material";
 import _ from "lodash";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -27,6 +27,9 @@ const page = ({ params }) => {
   const [initiativeName, setInitiativeName] = useState(_.startCase(params.initiative));
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const search = useSearchParams();
+
+  const fileModel = JSON.parse(search.get("data"));
 
   const handleEditorChange = (value) => {
     setMarkdown((prevMarkdown) => ({
@@ -37,7 +40,7 @@ const page = ({ params }) => {
 
   const handleUpdate = async () => {
     setLoading(true);
-    const updatedContent = new FileContent({
+    const updatedContent = new InitiativeContent({
       ...markdown,
       name: initiativeName,
     });
@@ -48,7 +51,7 @@ const page = ({ params }) => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      ESG.updateFile(updatedContent);
+      ESG.updateFile(fileModel, updatedContent);
       toast.success("Updated. Please wait 30 seconds to see the changes");
     } catch (error) {
       toast.error("Failed to update document");
@@ -77,7 +80,8 @@ const page = ({ params }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await ESG.getFileContent(params.dir, params.initiative);
+      const data = await ESG.getInitiativeContent(params.dir, params.initiative);
+      // console.log(data);
       setMarkdown(data);
     };
     fetchData();
@@ -97,7 +101,7 @@ const page = ({ params }) => {
               marginBottom: "1em",
             }}
           >
-            {initiativeName}
+            {fileModel.name}
           </Typography>
         </div>
         <div style={{ display: "flex", alignItems: "baseline" }}>
