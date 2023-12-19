@@ -24,7 +24,7 @@ const columns = [
 import { useDebounce } from "@/hooks/useDebounce";
 import ESG from "@/lib/esg-helper";
 import { Search } from "../Search";
-import Dropdown from "../dropDown";
+import Dropdown from "../Dropdown";
 import { Completed, Delayed, Neverending, Stopped, Undergoing } from "./chips";
 import dynamic from "next/dynamic";
 
@@ -42,7 +42,7 @@ const ESGTable = ({ type }) => {
   const setFiles = (files) => {
     setInitiatives(
       files.map((initiative, index) => ({
-        id: index + 1,
+        id: initiative.id,
         name: _.startCase(initiative.name),
         path: initiative.path,
         location: initiative.location,
@@ -89,7 +89,6 @@ const ESGTable = ({ type }) => {
         field_name: filter != "" ? filter : "name",
         key: debouncedSearch,
       });
-
       setFiles(files);
     };
     getSearchData();
@@ -160,19 +159,19 @@ const ESGTable = ({ type }) => {
                 {columns.map((column, index) => {
                   if (index === 6) {
                     return (
-                        <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
-                          <Button
-                            color="inherit"
-                            size="small"
-                            startIcon={<SyncIcon />}
-                            style={{ color: "grey" }}
-                            onClick={() => {
-                              setReRender((prev) => !prev);
-                            }}
-                          >
-                            Sync
-                          </Button>
-                        </TableCell>
+                      <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
+                        <Button
+                          color="inherit"
+                          size="small"
+                          startIcon={<SyncIcon />}
+                          style={{ color: "grey" }}
+                          onClick={() => {
+                            setReRender((prev) => !prev);
+                          }}
+                        >
+                          Sync
+                        </Button>
+                      </TableCell>
                     );
                   }
                   return (

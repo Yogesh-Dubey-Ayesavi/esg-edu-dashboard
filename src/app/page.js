@@ -1,19 +1,18 @@
 "use client";
 
-import Link from "next/link";
+import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/dashboard");
+    // router.push("/dashboard");
   }, []);
 
   return (
-    // <main className="flex min-h-screen flex-col items-center justify-between p-24">
-    //   home page <Link href="/dashboard">Dashboard </Link>
-    // </main>
-    <h1>wait</h1>
+    <Box sx={{ display: "flex", alignItem: "center", justifyContent: "center" }}>
+      <CircularProgress />
+    </Box>
   );
 }

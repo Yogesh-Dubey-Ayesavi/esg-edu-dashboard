@@ -12,7 +12,7 @@ export const Completed = (props) => {
             <Typography color="text.secondary" gutterBottom variant="overline" sx={{ fontWeight: "bold" }}>
               Completed
             </Typography>
-            <Typography variant="h4">{value}k</Typography>
+            <Typography variant="h4">{value}</Typography>
           </Stack>
           <Avatar
             sx={{

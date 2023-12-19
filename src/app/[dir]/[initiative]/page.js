@@ -62,17 +62,19 @@ const page = ({ params }) => {
 
   const handleDelete = async () => {
     setLoading(true);
-    const updatedContent = new FileContent({ ...markdown });
+    const updatedContent = new InitiativeContent({ ...markdown });
+    // console.log(updatedContent);
     toast.loading("Deleting the document", {
       duration: 5000,
     });
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      await ESG.deleteFile(updatedContent);
+      await ESG.deleteFile(fileModel, updatedContent.sha);
       router.back();
       toast.success("Deleted. Please wait 30 seconds to see the changes");
     } catch (error) {
+      console.log(error);
       toast.error("Failed to delete document");
     }
     setLoading(false);
