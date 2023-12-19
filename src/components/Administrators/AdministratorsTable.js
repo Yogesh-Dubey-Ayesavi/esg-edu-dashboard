@@ -20,6 +20,7 @@ const columns = [
 import { useDebounce } from "@/hooks/useDebounce";
 import ESG from "@/lib/esg-helper";
 import dynamic from "next/dynamic";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 // import { Search } from "../Search";
 // import Dropdown from "../dropDown";
 
@@ -28,11 +29,11 @@ const AdministratorsTable = ({ handleClickOpen }) => {
   const [page, setPage] = useState(0);
   const [reRender, setReRender] = useState(false);
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 200);
+  // const debouncedSearch = useDebounce(search, 200);
   // const [filter, setFilter] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const router = useRouter();
+  // const router = useRouter();
 
   const setFiles = (files) => {
     setAdmins(
@@ -82,7 +83,7 @@ const AdministratorsTable = ({ handleClickOpen }) => {
   }, [reRender]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", width: "100%", marginTop: "10px" }}>
       <Box
         sx={{
           display: "flex",
@@ -94,6 +95,7 @@ const AdministratorsTable = ({ handleClickOpen }) => {
         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
           {/* <Search placeholder={"Search institute.."} search={search} setSearch={setSearch} /> */}
           {/* <Dropdown filter={filter} setFilter={setFilter} /> */}
+          
         </Box>
         <Box style={{ marginTop: "20px" }}>
           <Button
@@ -113,6 +115,7 @@ const AdministratorsTable = ({ handleClickOpen }) => {
               Export to CSV
             </CSVLinkDynamic>
           </Button>
+
           <Button
             variant="contained"
             startIcon={<AddOutlinedIcon />}
@@ -128,7 +131,7 @@ const AdministratorsTable = ({ handleClickOpen }) => {
               handleClickOpen();
             }}
           >
-            Add
+            New Users
           </Button>
         </Box>
       </Box>

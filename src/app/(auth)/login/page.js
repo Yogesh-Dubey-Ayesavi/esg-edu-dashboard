@@ -49,9 +49,9 @@ const Page = () => {
               </Typography>
               <Typography color="grey" variant="body2">
                 Don&apos;t have an account? &nbsp;
-                <Link component={NextLink} href="/auth/register" underline="hover" variant="subtitle2">
+                {/* <Link component={NextLink} href="/auth/register" underline="hover" variant="subtitle2">
                   Register
-                </Link>
+                </Link> */}
               </Typography>
             </Stack>
             <Lottie animationData={Google} style={{ height: "200px", margin: "30px 0px" }} />
