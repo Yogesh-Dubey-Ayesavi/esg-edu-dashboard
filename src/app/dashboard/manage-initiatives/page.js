@@ -1,16 +1,11 @@
 "use client";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import ESGTable from "@/components/ESGTabs/ESGTable";
 import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import { useRef, useState } from "react";
-import { Search } from "@/components/Search";
-import { Button } from "@mui/material";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { useRouter } from "next/navigation";
-import ESGTable from "@/components/ESGTabs/ESGTable";
-import GetAppIcon from "@mui/icons-material/GetApp";
 
 const tabStyle = {
   fontWeight: "600 !important",
@@ -39,9 +34,6 @@ function a11yProps(index) {
 export default function TabsDemo() {
   const [value, setValue] = useState(0);
   const exportRef = useRef();
-
-  const urls = ["environment", "social", "governance"];
-  const router = useRouter();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

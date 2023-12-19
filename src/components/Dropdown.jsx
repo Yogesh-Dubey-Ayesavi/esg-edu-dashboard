@@ -1,23 +1,21 @@
 "use client";
 
+import { Paper } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import * as React from "react";
 
-export default function Dropdown() {
-  const [age, setAge] = React.useState("");
-
+export default function Dropdown({ filter, setFilter }) {
   const handleChange = (event) => {
-    console.log(event.target.value);
-    setAge(event.target.value);
+    setFilter(event.target.value);
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <Paper sx={{ padding: 0 }}>
+      <FormControl sx={{ minWidth: 120 }}>
         <Select
-          value={age}
+          value={filter}
           onChange={handleChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
@@ -25,14 +23,10 @@ export default function Dropdown() {
             border: "5px",
           }}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Initiative Name</MenuItem>
-          <MenuItem value={20}>Location</MenuItem>
-          <MenuItem value={30}>Created By</MenuItem>
+          <MenuItem value="">Initiative Name</MenuItem>
+          <MenuItem value={"location"}>Location</MenuItem>
         </Select>
       </FormControl>
-    </div>
+    </Paper>
   );
 }

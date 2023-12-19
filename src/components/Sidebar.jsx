@@ -31,6 +31,7 @@ import Link from "next/link";
 import theme from "../theme/theme"; // Import the created theme
 import { NavAvatar } from "./NavAvatar";
 import { Logo } from "./logo";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 // import loggedIn from "@/lib/is-logged-in";
 
@@ -40,9 +41,9 @@ const drawerWidth = 280;
 //   return await loggedIn();
 // };
 
-const tabs = ["Overview", "Manage Initiatives", "Administrators", "Settings"];
+const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Settings"];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/settings"];
+const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/settings"];
 
 const iconStyle = {
   color: "white",
@@ -174,6 +175,15 @@ function Sidebar(props) {
                   />
                 )}
                 {index === 3 && (
+                  <AccountBalanceIcon
+                    style={{
+                      ...iconStyle,
+                      color: selectedTab === index ? "#6366f1" : "#959ca6",
+                    }}
+                  />
+                )}
+
+                {index === 4 && (
                   <SettingsIcon
                     style={{
                       ...iconStyle,
@@ -181,14 +191,6 @@ function Sidebar(props) {
                     }}
                   />
                 )}
-                {/* {isLoggedIn && index === 4 && (
-                  <LogoutIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )} */}
                 <Typography
                   sx={{
                     fontWeight: selectedTab === index ? "bold" : "normal",

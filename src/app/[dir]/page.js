@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { FileContent } from "esg-sdk";
+import { FileContent, InitiativeContent } from "esg-sdk";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
@@ -12,6 +12,7 @@ import ESG from "@/lib/esg-helper";
 import { Button, OutlinedInput, Paper } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PublishIcon from "@mui/icons-material/Publish";
+import { Create } from "@mui/icons-material";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -33,21 +34,21 @@ const Page = ({ params }) => {
       return;
     }
 
-    const fileContentData = new FileContent({
-      sha: "",
-      path: `${params.dir}/${_.kebabCase(initiativeName)}`,
-      name: initiativeName,
-      type: "file",
-      content: markdown.content || "# Click to start editing",
-    });
-
     toast.loading("Creating document", {
       duration: 5000,
     });
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      ESG.createFile(fileContentData);
+      ESG.createFile({
+        dir: params.dir,
+        initiative_name: initiativeName,
+        location: "",
+        content: markdown.content || "# Click to start editing",
+        dateOfCompletion: new Date(),
+        file_desc: "",
+      });
+
       setLoading(false);
       router.push("/dashboard/manage-initiatives");
       toast.success("Document Created. Please wait 30 seconds to see the changes");
@@ -106,7 +107,7 @@ const Page = ({ params }) => {
           <Button
             variant="text"
             style={{
-              color: loading ? "grey": "black",
+              color: loading ? "grey" : "black",
               padding: "8px 20px",
               marginLeft: "5px",
               borderRadius: "12px",

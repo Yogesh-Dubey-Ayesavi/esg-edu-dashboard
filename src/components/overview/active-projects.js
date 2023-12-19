@@ -4,7 +4,7 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from "@mui/material";
 
 export const ActiveProjects = (props) => {
-  const { difference, positive = false, sx, value } = props;
+  const { positive, sx, values } = props;
 
   return (
     <Card sx={sx} elevation={0}>
@@ -14,7 +14,7 @@ export const ActiveProjects = (props) => {
             <Typography color="text.secondary" variant="overline" sx={{ fontWeight: "bold" }}>
               Active Projects
             </Typography>
-            <Typography variant="h4">{value}</Typography>
+            <Typography variant="h4">999</Typography>
           </Stack>
           <Avatar
             sx={{
@@ -28,7 +28,7 @@ export const ActiveProjects = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
+        {values.percentageChangeUndergoingMonth && values.underGoingPrevMonth != 0 && (
           <Stack alignItems="center" direction="row" spacing={2} sx={{ mt: 2 }}>
             <Stack alignItems="center" direction="row" spacing={0.5}>
               <SvgIcon color={positive ? "success" : "error"} fontSize="small">

@@ -6,62 +6,56 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SyncIcon from "@mui/icons-material/Sync";
 import { Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
-import _ from "lodash";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-const CSVLink = dynamic(() => import("react-csv").then((mod) => mod.CSVLink), { ssr: false });
+const CSVLink = dynamic(() => import('react-csv').then((mod) => mod.CSVLink), { ssr: false });
 
 const columns = [
-  { id: "fileName", label: "Initiative Name", align: "left" },
-  { id: "location", label: "Location", align: "left" },
-  { id: "createdBy", label: "Created By", align: "left" },
-  { id: "dateOfCreation", label: "Commencement Date", align: "left" },
-  { id: "docompletion", label: "Finish Date (approx)", align: "left" },
-  { id: "status", label: "Status", align: "left" },
+  { id: "name", label: "Name", align: "left" },
+  { id: "city", label: "City", align: "left" },
+  { id: "email", label: "Email", align: "left" },
+  { id: "phone_number", label: "Phone No", align: "left" },
+  { id: "address", label: "Address", align: "left" },
+  { id: "established_in", label: "Date", align: "left" },
+  { id: "website", label: "Website", align: "left" },
+  { id: "employee_size", label: "Employees", align: "left" },
   { id: "action", label: "", align: "right" },
 ];
 
 import { useDebounce } from "@/hooks/useDebounce";
 import ESG from "@/lib/esg-helper";
-import { Search } from "../Search";
-import Dropdown from "../dropDown";
-import { Completed, Delayed, Neverending, Stopped, Undergoing } from "./chips";
 import dynamic from "next/dynamic";
+// import { Search } from "../Search";
+// import Dropdown from "../dropDown";
 
-const ESGTable = ({ type }) => {
-  const [initiatives, setInitiatives] = useState([]);
+const ESGTable = ({ handleClickOpen }) => {
+  const [institutes, setInstitutes] = useState([]);
   const [page, setPage] = useState(0);
   const [reRender, setReRender] = useState(false);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 200);
-  const [filter, setFilter] = useState("");
+  // const [filter, setFilter] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const router = useRouter();
 
   const setFiles = (files) => {
-    setInitiatives(
-      files.map((initiative, index) => ({
-        id: index + 1,
-        name: _.startCase(initiative.name),
-        path: initiative.path,
-        location: initiative.location,
-        created_at: new Date(initiative.created_at).toLocaleDateString(),
-        dateOfCompletion: new Date(initiative.dateOfCompletion).toLocaleDateString(),
-        created_by: initiative.created_by,
-        status: initiative.status,
-      }))
+    setInstitutes(
+      files.map((item, index) => {
+        return {
+          id: index + 1,
+          name: item.name,
+          city: item.city,
+          email: item.email,
+          phone_number: item.phone_number,
+          address: item.address,
+          established_in: new Date(item.established_in).toLocaleDateString(),
+          website: item.website,
+          employee_size: item.employee_size,
+        };
+      })
     );
   };
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const files = await ESG.fetchFiles(type);
-  //     // console.log(files);
-  //     setFiles(files);
-  //   };
-  //   getData();
-  // }, [type, reRender]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -72,28 +66,25 @@ const ESGTable = ({ type }) => {
     setPage(0);
   };
 
-  const csvData = initiatives.map((initiative) => ({
-    Id: initiative.id,
-    Name: _.startCase(initiative.name),
-    Path: initiative.path,
-    Location: initiative.location,
-    "Created at": new Date(initiative.created_at).toLocaleDateString(),
-    "Date of completion": new Date(initiative.dateOfCompletion).toLocaleDateString(),
-    "Created by": initiative.created_by,
-    Status: initiative.status,
+  const csvData = institutes.map((item) => ({
+    Name: item.name,
+    City: item.city,
+    Email: item.email,
+    "Phone number": item.phone_number,
+    Address: item.address,
+    "Established in": new Date(item.established_in).toLocaleDateString(),
+    Website: item.website,
+    "Employee size": item.employee_size,
   }));
 
   useEffect(() => {
     const getSearchData = async () => {
-      const files = await ESG.searchFiles(type, {
-        field_name: filter != "" ? filter : "name",
-        key: debouncedSearch,
-      });
-
+      const files = await ESG.getMyInstitutionDetails();
+      console.log(files);
       setFiles(files);
     };
     getSearchData();
-  }, [debouncedSearch, filter, reRender]);
+  }, [debouncedSearch, reRender]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -106,10 +97,10 @@ const ESGTable = ({ type }) => {
         }}
       >
         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
-          <Search placeholder={"Search file.."} search={search} setSearch={setSearch} />
-          <Dropdown filter={filter} setFilter={setFilter} />
+          {/* <Search placeholder={"Search institute.."} search={search} setSearch={setSearch} /> */}
+          {/* <Dropdown filter={filter} setFilter={setFilter} /> */}
         </Box>
-        <Box>
+        <Box style={{ marginTop: "20px" }}>
           <Button
             variant="text"
             startIcon={<GetAppIcon />}
@@ -123,7 +114,7 @@ const ESGTable = ({ type }) => {
             }}
             size="large"
           >
-            <CSVLink data={csvData} filename={"initiatives.csv"} className="export-button">
+            <CSVLink data={csvData} filename={"institues.csv"} className="export-button">
               Export to CSV
             </CSVLink>
           </Button>
@@ -139,7 +130,7 @@ const ESGTable = ({ type }) => {
             }}
             size="large"
             onClick={() => {
-              router.push(`/${type}`);
+              handleClickOpen();
             }}
           >
             Add
@@ -151,6 +142,7 @@ const ESGTable = ({ type }) => {
         sx={{
           width: "100%",
           borderRadius: "10px",
+          marginTop: "20px",
         }}
       >
         <TableContainer>
@@ -158,21 +150,21 @@ const ESGTable = ({ type }) => {
             <TableHead>
               <TableRow>
                 {columns.map((column, index) => {
-                  if (index === 6) {
+                  if (index === 8) {
                     return (
-                        <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
-                          <Button
-                            color="inherit"
-                            size="small"
-                            startIcon={<SyncIcon />}
-                            style={{ color: "grey" }}
-                            onClick={() => {
-                              setReRender((prev) => !prev);
-                            }}
-                          >
-                            Sync
-                          </Button>
-                        </TableCell>
+                      <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
+                        <Button
+                          color="inherit"
+                          size="small"
+                          startIcon={<SyncIcon />}
+                          style={{ color: "grey" }}
+                          onClick={() => {
+                            setReRender((prev) => !prev);
+                          }}
+                        >
+                          Sync
+                        </Button>
+                      </TableCell>
                     );
                   }
                   return (
@@ -184,27 +176,23 @@ const ESGTable = ({ type }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {initiatives.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+              {institutes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                 <TableRow
                   hover
-                  key={row.id}
+                  key={row.name}
                   onClick={() => {
-                    router.push(`/${row.path}?data=${JSON.stringify(row)}`);
+                    // router.push(`/${row.path}?data=${JSON.stringify(row)}`);
                   }}
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="left">{row.location}</TableCell>
-                  <TableCell align="left">{row.created_by}</TableCell>
-                  <TableCell align="left">{row.created_at}</TableCell>
-                  <TableCell align="left">{row.dateOfCompletion}</TableCell>
-                  <TableCell align="left">
-                    {row.status === "completed" && <Completed status={row.status} />}
-                    {row.status === "delayed" && <Delayed status={row.status} />}
-                    {row.status === "neverending" && <Neverending status={row.status} />}
-                    {row.status === "stopped" && <Stopped status={row.status} />}
-                    {row.status === "undergoing" && <Undergoing status={row.status} />}
-                  </TableCell>
+                  <TableCell align="left">{row.city}</TableCell>
+                  <TableCell align="left">{row.email}</TableCell>
+                  <TableCell align="left">{row.phone_number}</TableCell>
+                  <TableCell align="left">{row.address}</TableCell>
+                  <TableCell align="left">{row.established_in}</TableCell>
+                  <TableCell align="left">{row.website}</TableCell>
+                  <TableCell align="left">{row.employee_size}</TableCell>
                   <TableCell align="right">
                     <IconButton
                       aria-label="select"
@@ -223,7 +211,7 @@ const ESGTable = ({ type }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10]}
           component="div"
-          count={initiatives.length}
+          count={institutes.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
