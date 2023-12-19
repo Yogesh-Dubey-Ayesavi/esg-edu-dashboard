@@ -24,7 +24,7 @@ const columns = [
 import { useDebounce } from "@/hooks/useDebounce";
 import ESG from "@/lib/esg-helper";
 import { Search } from "../Search";
-import Dropdown from "../dropDown";
+import Dropdown from "../Dropdown";
 import { Completed, Delayed, Neverending, Stopped, Undergoing } from "./chips";
 import dynamic from "next/dynamic";
 
