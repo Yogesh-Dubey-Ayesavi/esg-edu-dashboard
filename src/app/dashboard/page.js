@@ -1,6 +1,7 @@
 "use client";
 
 import SalesChart from "@/components/charts/SalesChart";
+import SalesChartInitiative from "@/components/charts/SalesChartInitiative";
 import { ActiveProjects } from "@/components/overview/active-projects";
 import { Completed } from "@/components/overview/completed";
 import { Stopped } from "@/components/overview/stopped";
@@ -9,7 +10,10 @@ import SyncIcon from "@mui/icons-material/Sync";
 import { Box, Button, Container, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import DonutChart from "../../components/charts/DonutChart";
+import DonutChartInitiative from "../../components/charts/DonutChartInitiative";
 import LineChart from "../../components/charts/LineChart";
+import LineChartInitiative from "../../components/charts/LineChartInitiative";
+
 import ESG from "@/lib/esg-helper";
 
 const page = () => {
@@ -120,6 +124,38 @@ const page = () => {
         />
       </Box>
       <SalesChart reRender={reRender} sx={{ height: "100%", width: "100%" }} />
+      <Box
+        sx={{
+          display: "flex",
+          gap: "20px",
+          alignItems: "flex-end",
+          flexDirection: "row",
+          "@media (max-width: 1130px)": {
+            flexDirection: "column",
+            alignItems: "flex-start",
+          },
+          marginBottom: "20px",
+          marginTop: "20px",
+        }}
+      >
+        <LineChartInitiative
+          sx={{
+            height: "100%",
+            width: "70%",
+            "@media (max-width: 1130px)": {
+              width: "100%",
+            },
+          }}
+          reRender={reRender}
+        />
+        <DonutChartInitiative
+          sx={{
+            height: "100%",
+          }}
+          reRender={reRender}
+        />
+      </Box>
+      <SalesChartInitiative reRender={reRender} sx={{ height: "100%", width: "100%" }} />
     </>
   );
 };
