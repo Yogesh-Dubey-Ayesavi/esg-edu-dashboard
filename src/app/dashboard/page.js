@@ -34,6 +34,7 @@ const page = () => {
         const currentMonthUndergoingInitiativeCounts = await ESG.getCurrentMonthUndergoingInitiativeCounts();
         const prevMonthUndergoingInitiativeCounts = await ESG.getPrevMonthUndergoingInitiativeCounts();
 
+
         const percentageChangeInMonthUndergoing = (currentMonthUndergoingInitiativeCounts / prevMonthUndergoingInitiativeCounts) * 100;
         const percentageChangeInYear = ((totalInitiativesCurrentYear - totalInitiativesPrevYear) / totalInitiativesPrevYear) * 100;
 
@@ -72,10 +73,10 @@ const page = () => {
                 <ActiveProjects values={values} positive={values.percentageChangeUndergoingMonth > 0 ? true : false} sx={{ height: "100%" }} value="15.6k" />
               </Grid>
               <Grid item xs={12} sm={6} lg={3}>
-                <Completed sx={{ height: "100%" }} value={5.2} />
+                <Completed sx={{ height: "100%" }} value={5} />
               </Grid>
               <Grid item xs={12} sm={6} lg={3}>
-                <Stopped sx={{ height: "100%" }} value="102" />
+                <Stopped sx={{ height: "100%" }} value="2" />
               </Grid>
             </Grid>
           </Container>
@@ -138,6 +139,12 @@ const page = () => {
           marginTop: "20px",
         }}
       >
+        <DonutChartInitiative
+          sx={{
+            height: "100%",
+          }}
+          reRender={reRender}
+        />
         <LineChartInitiative
           sx={{
             height: "100%",
@@ -148,14 +155,8 @@ const page = () => {
           }}
           reRender={reRender}
         />
-        <DonutChartInitiative
-          sx={{
-            height: "100%",
-          }}
-          reRender={reRender}
-        />
       </Box>
-      <SalesChartInitiative reRender={reRender} sx={{ height: "100%", width: "100%" }} />
+      {/* <SalesChartInitiative reRender={reRender} sx={{ height: "100%", width: "100%" }} /> */}
     </>
   );
 };

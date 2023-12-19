@@ -15,7 +15,6 @@ const Page = ({ sx, reRender }) => {
     const fetchData = async () => {
       try {
         const data = await ESG.getInitiativeCountByLocation();
-        // console.log(data);
 
         // Extract location names and total initiative counts from the received data
         const locations = data.map((entry) => entry.location_name);

@@ -1,6 +1,6 @@
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from "@mui/material";
 
 export const ActiveProjects = (props) => {
@@ -14,7 +14,7 @@ export const ActiveProjects = (props) => {
             <Typography color="text.secondary" variant="overline" sx={{ fontWeight: "bold" }}>
               Active Projects
             </Typography>
-            <Typography variant="h4">999</Typography>
+            <Typography variant="h4">{values.underGoingCurrentMonth}</Typography>
           </Stack>
           <Avatar
             sx={{

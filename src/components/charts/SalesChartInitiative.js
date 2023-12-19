@@ -115,17 +115,19 @@ const SalesChart = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ESG.getViewsByPage();
-        const categories = data.map((entry) => {
-          const parts = entry.page_name.split("|");
-          return parts[0].trim();
-        });
-        const views = data.map((entry) => parseInt(entry.views));
+        const data = await ESG.getPerYearCreatedClosedInitiatives();
+        
+        console.log(data);
+        // const categories = data.map((entry) => {
+        //   const parts = entry.page_name.split("|");
+        //   return parts[0].trim();
+        // });
+        // const views = data.map((entry) => parseInt(entry.views));
 
-        setChartData({
-          categories: categories,
-          views: views,
-        });
+        // setChartData({
+        //   categories: categories,
+        //   views: views,
+        // });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -139,7 +141,7 @@ const SalesChart = (props) => {
       <CardHeader
         title={
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Page Views
+            Initiatives Created and Closed Per Year
           </Typography>
         }
       />
