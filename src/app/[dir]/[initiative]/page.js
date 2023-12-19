@@ -64,7 +64,7 @@ const page = ({ params }) => {
     setLoading(true);
     const updatedContent = new InitiativeContent({ ...markdown });
     toast.loading("Deleting the document", {
-      duration: 5000,
+      duration: 5000, 
     });
 
     try {

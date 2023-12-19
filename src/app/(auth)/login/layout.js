@@ -76,6 +76,7 @@ export default function RootLayout({ children }) {
                   fontSize: "24px",
                   lineHeight: "32px",
                   mb: 1,
+                  fontWeight: "bold"
                 }}
                 variant="h1"
               >

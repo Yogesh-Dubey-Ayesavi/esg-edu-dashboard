@@ -122,7 +122,7 @@ const ESGTable = ({ type }) => {
             }}
             size="large"
           >
-            <CSVLink data={csvData} filename={"initiatives.csv"} className="export-button">
+            <CSVLink data={csvData} filename={"initiatives.csv"} className="export-button" style={{ textDecoration: "none" }}>
               Export to CSV
             </CSVLink>
           </Button>

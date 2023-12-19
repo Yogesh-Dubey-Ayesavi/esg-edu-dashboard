@@ -42,9 +42,9 @@ const drawerWidth = 280;
 //   return await loggedIn();
 // };
 
-const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Reports", "Settings"];
+const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Question Context", "Settings"];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/reports", "/dashboard/settings"];
+const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/questions", "/dashboard/settings"];
 
 const iconStyle = {
   color: "white",
