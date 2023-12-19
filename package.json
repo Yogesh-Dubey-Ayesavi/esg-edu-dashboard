@@ -20,7 +20,7 @@
     "apexcharts": "^3.44.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "esg-sdk": "^4.3.0",
+    "esg-sdk": "^4.5.0",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.294.0",
