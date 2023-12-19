@@ -44,7 +44,7 @@ const Page = ({ params }) => {
         dir: params.dir,
         initiative_name: initiativeName,
         location: "",
-        content: markdown.content || "# Click to start editing",
+        content: markdown || "# Click to start editing",
         dateOfCompletion: new Date(),
         file_desc: "",
       });
