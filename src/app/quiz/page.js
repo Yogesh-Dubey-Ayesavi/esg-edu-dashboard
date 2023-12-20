@@ -109,20 +109,33 @@ const Home = () => {
 
   const handleSubmit = async () => {
     try {
-      console.log(userAnswers);
-      // Assuming you have a table named 'answers' in your Supabase database
-      const { error } = await ESG.supabase.from("institution_assesments").insert(userAnswers);
+      const apiKey = "qWk0Pe6jAO3mxFQCvctoIuO4PdU0IcKQ1ta6m5vhchOd0Z0KdoLWQORKAK8PZeehyfvTdtUY9DHqsMvln9z6XG1SopoqA7d8J4hXhR4zJZv4kkeHm7qNWkN8R0rq8INB";
 
-      if (error) {
-        console.error("Error submitting answers:", error);
-        toast.error("Error submitting answers");
-      } else {
-        toast.success("Answers submitted successfully");
-        router.push("/dashboard");
+      const response = await fetch("https://asia-south1-esgedu-740d2.cloudfunctions.net/llm-reporter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // apikey: apiKey,
+        },
+        body: JSON.stringify({
+          data: {
+            id: userId,
+            qa: userAnswers,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    } catch (e) {
-      console.error("Error:", e);
-      toast.error(e.message || "An error occurred");
+
+      const responseData = await response.json();
+
+      toast.success("Answers submitted successfully");
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error.message || "An error occurred");
     }
   };
 

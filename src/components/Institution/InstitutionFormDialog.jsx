@@ -5,7 +5,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+import dynamic from "next/dynamic";
+
+const Slide = dynamic(() => import("@mui/material/Slide"), { ssr: false });
 import { InstitutionModel } from "esg-sdk";
 import * as React from "react";
 import toast from "react-hot-toast";
