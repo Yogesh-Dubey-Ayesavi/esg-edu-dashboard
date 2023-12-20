@@ -34,6 +34,7 @@ import { Logo } from "./logo";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import ESG from "@/lib/esg-helper";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 
 // import loggedIn from "@/lib/is-logged-in";
 
@@ -43,9 +44,9 @@ const drawerWidth = 280;
 //   return await loggedIn();
 // };
 
-const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Question Context", "Quiz"];
+const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Question Context", "Reports"];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/questions", "/dashboard/newquiz"];
+const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/questions", "/dashboard/reports"];
 
 const iconStyle = {
   color: "white",
@@ -217,7 +218,7 @@ function Sidebar(props) {
                     />
                   )}
                   {index === 5 && (
-                    <SettingsIcon
+                    <SummarizeIcon
                       style={{
                         ...iconStyle,
                         color: selectedTab === index ? "#6366f1" : "#959ca6",

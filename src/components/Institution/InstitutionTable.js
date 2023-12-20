@@ -1,16 +1,12 @@
 "use client";
 
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import GetAppIcon from "@mui/icons-material/GetApp";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SyncIcon from "@mui/icons-material/Sync";
 import { Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import TablePagination from "@mui/material/TablePagination";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const columns = [
   { id: "name", label: "Name", align: "left" },
@@ -26,44 +22,22 @@ const columns = [
 
 import { useDebounce } from "@/hooks/useDebounce";
 import ESG from "@/lib/esg-helper";
-import dynamic from "next/dynamic";
-// import { Search } from "../Search";
-// import Dropdown from "../dropDown";
 
-const InstitutionTable = ({ handleClickOpen }) => {
+const InstitutionTable = () => {
   const [institutes, setInstitutes] = useState([]);
-  const [page, setPage] = useState(0);
   const [reRender, setReRender] = useState(false);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 200);
 
-  // const [filter, setFilter] = useState("");
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const router = useRouter();
-
-  const setFiles = (files) => {
-    const { established_in } = files;
-    setInstitutes({
-      ...files,
-      established_in: new Date(established_in).toLocaleDateString(),
-    });
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const router = useRouter();
 
   useEffect(() => {
     const getSearchData = async () => {
-      const files = await ESG.getMyInstitutionDetails();
-      console.log(files);
-      setFiles(files);
+      const { data, error } = await ESG.supabase.from("institutions").select();
+      if (data.length === 0) {
+        toast.error("No Institution found under this account.");
+      }
+      setInstitutes(data);
     };
     getSearchData();
   }, [debouncedSearch, reRender]);
@@ -78,28 +52,18 @@ const InstitutionTable = ({ handleClickOpen }) => {
           gap: "20px",
         }}
       >
-        <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
-          {/* <Search placeholder={"Search institute.."} search={search} setSearch={setSearch} /> */}
-          {/* <Dropdown filter={filter} setFilter={setFilter} /> */}
-        </Box>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        ></Box>
         <Box style={{ marginTop: "20px" }}>
-          {/* <Button
-            variant="contained"
-            startIcon={<AddOutlinedIcon />}
-            style={{
-              backgroundColor: "#6366F1",
-              padding: "8px 20px",
-              borderRadius: "11px",
-              textTransform: "none",
-              fontWeight: "600",
-            }}
-            size="large"
-            onClick={() => {
-              handleClickOpen();
-            }}
-          >
+          <button className="bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2 px-4 rounded-full" onClick={router.push("/")}>
             Add
-          </Button> */}
+          </button>
         </Box>
       </Box>
       <Paper
@@ -117,7 +81,15 @@ const InstitutionTable = ({ handleClickOpen }) => {
                 {columns.map((column, index) => {
                   if (index === 8) {
                     return (
-                      <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{
+                          minWidth: column.minWidth,
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                        }}
+                      >
                         <Button
                           color="inherit"
                           size="small"
@@ -133,7 +105,15 @@ const InstitutionTable = ({ handleClickOpen }) => {
                     );
                   }
                   return (
-                    <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold", fontSize: "16px" }}>
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                      }}
+                    >
                       {column.label}
                     </TableCell>
                   );
@@ -141,44 +121,40 @@ const InstitutionTable = ({ handleClickOpen }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow
-                hover
-                onClick={() => {
-                  // router.push(`/${row.path}?data=${JSON.stringify(row)}`);
-                }}
-                sx={{ cursor: "pointer" }}
-              >
-                <TableCell align="left">{institutes.name}</TableCell>
-                <TableCell align="left">{institutes.city}</TableCell>
-                <TableCell align="left">{institutes.email}</TableCell>
-                <TableCell align="left">{institutes.phone_number}</TableCell>
-                <TableCell align="left">{institutes.address}</TableCell>
-                <TableCell align="left">{institutes.established_in}</TableCell>
-                <TableCell align="left">{institutes.website}</TableCell>
-                <TableCell align="left">{institutes.employee_size}</TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    aria-label="select"
+              {institutes.map((i) => {
+                return (
+                  <TableRow
+                    key={i.id}
+                    hover
                     onClick={() => {
-                      // console.log(row.id);
+                      // router.push(/${row.path}?data=${JSON.stringify(row)});
                     }}
+                    sx={{ cursor: "pointer" }}
                   >
-                    <MoreVertIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+                    <TableCell align="left">{i.name}</TableCell>
+                    <TableCell align="left">{i.city}</TableCell>
+                    <TableCell align="left">{i.email}</TableCell>
+                    <TableCell align="left">{i.phone_number}</TableCell>
+                    <TableCell align="left">{i.address}</TableCell>
+                    <TableCell align="left">{new Date(i.established_in).toLocaleDateString()}</TableCell>
+                    <TableCell align="left">{i.website}</TableCell>
+                    <TableCell align="left">{i.employee_size}</TableCell>
+                    <TableCell align="right">
+                      <IconButton
+                        aria-label="select"
+                        onClick={() => {
+                          // console.log(row.id);
+                        }}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination
-          rowsPerPageOptions={[5, 10]}
-          component="div"
-          count={1}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
       </Paper>
     </Box>
   );
