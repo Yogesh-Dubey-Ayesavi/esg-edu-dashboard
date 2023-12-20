@@ -11,9 +11,9 @@ import { useRouter } from "next/navigation";
 
 const InstitutionForm = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const handleSubmit = async (formValues) => {
-    const userData = await ESG.getUserInfo();
     console.log(formValues);
     try {
       const response = await ESG.supabase.from("institutions").insert({
@@ -21,6 +21,7 @@ const InstitutionForm = () => {
       });
       router.push("/quiz");
       toast.success("Institution has been successfully registered.");
+      handleReset();
     } catch (e) {
       toast.error(e);
     }

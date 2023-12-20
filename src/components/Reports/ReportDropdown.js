@@ -5,7 +5,7 @@ import { CircularProgress, FormControl, MenuItem, Select } from "@mui/material";
 import ESG from "@/lib/esg-helper";
 
 const ReportDropdown = ({ onSelect, selectedInstitution, setSelectedInstitution }) => {
-  const [institutions, setInstitutions] = useState([]);
+  // const [institutions, setInstitutions] = useState([]);
 
   useEffect(() => {
     const getInstitutions = async () => {

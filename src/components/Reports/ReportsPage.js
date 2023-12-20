@@ -76,7 +76,7 @@ const ReportsPage = ({ type }) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "800px" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: "3rem" }}>
-        <ReportDropdown onSelect={handleSubmit} selectedInstitution={selectedInstitution} setSelectedInstitution={setSelectedInstitution} />
+        {/* <ReportDropdown onSelect={handleSubmit} selectedInstitution={selectedInstitution} setSelectedInstitution={setSelectedInstitution} /> */}
         <Button
           variant="contained"
           startIcon={<AddOutlinedIcon />}
