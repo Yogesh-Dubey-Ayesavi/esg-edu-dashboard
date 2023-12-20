@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -11,33 +11,50 @@ import { useRouter } from "next/navigation";
 
 const InstitutionForm = () => {
   const router = useRouter();
+
   const handleSubmit = async (formValues) => {
     const userData = await ESG.getUserInfo();
-
-    const data = formValues;
-    data["handler_id"] = userData?.id;
-
     console.log(formValues);
     try {
-      // const response = await ESG.registerInstitution(new InstitutionModel(data));
-
-      // router.push("/quiz");
-      // toast.success("Institution has been successfully registered.");
+      const response = await ESG.supabase.from("institutions").insert({
+        ...formValues,
+      });
+      router.push("/quiz");
+      toast.success("Institution has been successfully registered.");
     } catch (e) {
       toast.error(e);
     }
   };
 
+  useEffect(() => {
+    try {
+      const makeAsync = async () => {
+        const role = await ESG.getRole();
+        if (role === "super_admin") {
+          router.push("/dashboard");
+          return;
+        }
+
+        const { data, error } = await ESG.supabase.from("institutions").select();
+
+        if (data.length != 0) {
+          router.push("/quiz");
+        }
+      };
+      makeAsync();
+    } catch (e) {
+      toast.error(e);
+    }
+  }, []);
+
   const [formValues, setFormValues] = useState({
     name: "",
     city: "",
-    email: "",
     phone_number: "",
     address: "",
     established_in: "",
     website: "",
     employee_size: "",
-    handler_id: "",
     industry: "",
   });
 
@@ -53,40 +70,30 @@ const InstitutionForm = () => {
     setFormValues({
       name: "",
       city: "",
-      email: "",
       phone_number: "",
       address: "",
       established_in: "",
       website: "",
       employee_size: "",
-      handler_id: "",
       industry: "",
     });
   };
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    await handleSubmit(formValues);
-    handleReset();
-  };
-
   return (
     <Container
-      component="form"
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
       }}
-      onSubmit={handleFormSubmit}
     >
       <Paper
         elevation={3}
         sx={{
-          width: "70%",
-          padding: "1.5rem",
-          height: "60vh",
+          width: "50%",
+          padding: "2rem",
+          height: "70vh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-around",
@@ -146,7 +153,15 @@ const InstitutionForm = () => {
           <TextField fullWidth label="Employee Size" variant="outlined" type="number" name="employee_size" value={formValues.employee_size} onChange={handleInputChange} sx={{ mt: 1 }} />
         </Box>
         <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button type="submit" variant="contained" size="large" sx={{ backgroundColor: "#6631f1", color: "white", textTransform: "none", fontSize: "17px", borderRadius: "10px", marginTop: "20px" }}>
+          <Button
+            onClick={() => {
+              handleSubmit(formValues);
+            }}
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{ backgroundColor: "#6631f1", color: "white", textTransform: "none", fontSize: "17px", borderRadius: "10px", marginTop: "20px" }}
+          >
             Submit
           </Button>
         </Box>

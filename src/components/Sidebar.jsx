@@ -32,7 +32,8 @@ import theme from "../theme/theme"; // Import the created theme
 import { NavAvatar } from "./NavAvatar";
 import { Logo } from "./logo";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import ESG from "@/lib/esg-helper";
 
 // import loggedIn from "@/lib/is-logged-in";
 
@@ -42,9 +43,9 @@ const drawerWidth = 280;
 //   return await loggedIn();
 // };
 
-const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Question Context", "Settings"];
+const tabs = ["Overview", "Manage Initiatives", "Administrators", "Institutions", "Question Context", "Quiz"];
 
-const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/questions", "/dashboard/settings"];
+const tab_urls = ["/dashboard", "/dashboard/manage-initiatives", "/dashboard/admins", "/dashboard/institutions", "/dashboard/questions", "/dashboard/newquiz"];
 
 const iconStyle = {
   color: "white",
@@ -56,6 +57,21 @@ function Sidebar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedTab, setSelectedTab] = React.useState("");
   const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [ifWriter, setIfWriter] = React.useState(false);
+  const [ifInstitution, setIfInstitution] = React.useState(false);
+
+  React.useEffect(() => {
+    const makeAsync = async () => {
+      const role = await ESG.getRole();
+
+      if (role === "initiative_writer") {
+        setIfWriter(true);
+      } else if (role === "institution") {
+        setIfInstitution(true);
+      }
+    };
+    makeAsync();
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -134,84 +150,94 @@ function Sidebar(props) {
         }}
       />
       <List style={{ padding: "24px 16px" }}>
-        {tabs.map((text, index) => (
-          <ListItem
-            key={text}
-            disablePadding
-            style={{
-              backgroundColor: selectedTab === index ? "#252e3e" : "transparent",
-              borderRadius: "10px",
-              marginBottom: "5px",
-            }}
-          >
-            <Link style={{ width: "100%", textDecoration: "none" }} href={tab_urls[index]}>
-              <ListItemButton
-                onClick={() => handleTabClick(index)}
-                sx={{
-                  borderRadius: "10px",
-                }}
-              >
-                {index === 0 && (
-                  <DashboardIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {index === 1 && (
-                  <ManageSearchIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {index === 2 && (
-                  <PeopleAltIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {index === 3 && (
-                  <AccountBalanceIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {index === 4 && (
-                  <HistoryEduIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                {index === 5 && (
-                  <SettingsIcon
-                    style={{
-                      ...iconStyle,
-                      color: selectedTab === index ? "#6366f1" : "#959ca6",
-                    }}
-                  />
-                )}
-                <Typography
+        {tabs.map((text, index) => {
+          if (ifWriter && (index === 3 || index === 4)) {
+            return;
+          }
+
+          if (ifInstitution && index === 4) {
+            return;
+          }
+
+          return (
+            <ListItem
+              key={text}
+              disablePadding
+              style={{
+                backgroundColor: selectedTab === index ? "#252e3e" : "transparent",
+                borderRadius: "10px",
+                marginBottom: "5px",
+              }}
+            >
+              <Link style={{ width: "100%", textDecoration: "none" }} href={tab_urls[index]}>
+                <ListItemButton
+                  onClick={() => handleTabClick(index)}
                   sx={{
-                    fontWeight: selectedTab === index ? "bold" : "normal",
-                    fontSize: "14px",
-                    color: selectedTab === index ? "white" : "#959ca6",
+                    borderRadius: "10px",
                   }}
                 >
-                  {text}
-                </Typography>
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
+                  {index === 0 && (
+                    <DashboardIcon
+                      style={{
+                        ...iconStyle,
+                        color: selectedTab === index ? "#6366f1" : "#959ca6",
+                      }}
+                    />
+                  )}
+                  {index === 1 && (
+                    <ManageSearchIcon
+                      style={{
+                        ...iconStyle,
+                        color: selectedTab === index ? "#6366f1" : "#959ca6",
+                      }}
+                    />
+                  )}
+                  {index === 2 && (
+                    <PeopleAltIcon
+                      style={{
+                        ...iconStyle,
+                        color: selectedTab === index ? "#6366f1" : "#959ca6",
+                      }}
+                    />
+                  )}
+                  {index === 3 && (
+                    <AccountBalanceIcon
+                      style={{
+                        ...iconStyle,
+                        color: selectedTab === index ? "#6366f1" : "#959ca6",
+                      }}
+                    />
+                  )}
+                  {index === 4 && (
+                    <HistoryEduIcon
+                      style={{
+                        ...iconStyle,
+                        color: selectedTab === index ? "#6366f1" : "#959ca6",
+                      }}
+                    />
+                  )}
+                  {index === 5 && (
+                    <SettingsIcon
+                      style={{
+                        ...iconStyle,
+                        color: selectedTab === index ? "#6366f1" : "#959ca6",
+                      }}
+                    />
+                  )}
+                  <Typography
+                    sx={{
+                      fontWeight: selectedTab === index ? "bold" : "normal",
+                      fontSize: "14px",
+                      color: selectedTab === index ? "white" : "#959ca6",
+                    }}
+                  >
+                    {text}
+                  </Typography>
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          );
+        })}
       </List>
       <Divider style={{ backgroundColor: "#252e3e", height: "2px" }} />
       <Box
@@ -246,12 +272,12 @@ function Sidebar(props) {
           }}
           endIcon={<LaunchIcon />}
           fullWidth
-          href="https://github.com/Yogesh-Dubey-Ayesavi"
+          href="https://github.com/Yogesh-Dubey-Ayesavi/esg-edu-dashboard"
           sx={{ mt: 2 }}
           target="_blank"
           variant="contained"
         >
-          Checkout our github
+          Checkout our GitHub
         </Button>
       </Box>
     </div>
