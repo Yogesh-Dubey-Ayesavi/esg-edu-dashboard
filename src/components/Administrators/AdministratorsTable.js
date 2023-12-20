@@ -20,7 +20,7 @@ const columns = [
 import { useDebounce } from "@/hooks/useDebounce";
 import ESG from "@/lib/esg-helper";
 import dynamic from "next/dynamic";
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 // import { Search } from "../Search";
 // import Dropdown from "../dropDown";
 
@@ -95,7 +95,6 @@ const AdministratorsTable = ({ handleClickOpen }) => {
         <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
           {/* <Search placeholder={"Search institute.."} search={search} setSearch={setSearch} /> */}
           {/* <Dropdown filter={filter} setFilter={setFilter} /> */}
-          
         </Box>
         <Box style={{ marginTop: "20px" }}>
           <Button
@@ -111,7 +110,7 @@ const AdministratorsTable = ({ handleClickOpen }) => {
             }}
             size="large"
           >
-            <CSVLinkDynamic data={csvData} filename={"admins.csv"} className="export-button">
+            <CSVLinkDynamic data={csvData} filename={"admins.csv"} className="export-button" style={{ color: "black" }} >
               Export to CSV
             </CSVLinkDynamic>
           </Button>

@@ -8,7 +8,6 @@ import { Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableConta
 import TablePagination from "@mui/material/TablePagination";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-const CSVLink = dynamic(() => import("react-csv").then((mod) => mod.CSVLink), { ssr: false });
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,7 +30,7 @@ import dynamic from "next/dynamic";
 // import { Search } from "../Search";
 // import Dropdown from "../dropDown";
 
-const ESGTable = ({ handleClickOpen }) => {
+const InstitutionTable = ({ handleClickOpen }) => {
   const [institutes, setInstitutes] = useState([]);
   const [page, setPage] = useState(0);
   const [reRender, setReRender] = useState(false);
@@ -41,24 +40,14 @@ const ESGTable = ({ handleClickOpen }) => {
   // const [filter, setFilter] = useState("");
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const router = useRouter();
+  // const router = useRouter();
 
   const setFiles = (files) => {
-    setInstitutes(
-      files.map((item, index) => {
-        return {
-          id: index + 1,
-          name: item.name,
-          city: item.city,
-          email: item.email,
-          phone_number: item.phone_number,
-          address: item.address,
-          established_in: new Date(item.established_in).toLocaleDateString(),
-          website: item.website,
-          employee_size: item.employee_size,
-        };
-      })
-    );
+    const { established_in } = files;
+    setInstitutes({
+      ...files,
+      established_in: new Date(established_in).toLocaleDateString(),
+    });
   };
 
   const handleChangePage = (event, newPage) => {
@@ -69,17 +58,6 @@ const ESGTable = ({ handleClickOpen }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const csvData = institutes.map((item) => ({
-    Name: item.name,
-    City: item.city,
-    Email: item.email,
-    "Phone number": item.phone_number,
-    Address: item.address,
-    "Established in": new Date(item.established_in).toLocaleDateString(),
-    Website: item.website,
-    "Employee size": item.employee_size,
-  }));
 
   useEffect(() => {
     const getSearchData = async () => {
@@ -105,23 +83,6 @@ const ESGTable = ({ handleClickOpen }) => {
           {/* <Dropdown filter={filter} setFilter={setFilter} /> */}
         </Box>
         <Box style={{ marginTop: "20px" }}>
-          <Button
-            variant="text"
-            startIcon={<GetAppIcon />}
-            style={{
-              color: "black",
-              padding: "8px 20px",
-              borderRadius: "11px",
-              textTransform: "none",
-              fontWeight: "600",
-              marginRight: "10px",
-            }}
-            size="large"
-          >
-            <CSVLink data={csvData} filename={"institues.csv"} className="export-button">
-              Export to CSV
-            </CSVLink>
-          </Button>
           {/* <Button
             variant="contained"
             startIcon={<AddOutlinedIcon />}
@@ -180,50 +141,47 @@ const ESGTable = ({ handleClickOpen }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {institutes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                <TableRow
-                  hover
-                  key={row.name}
-                  onClick={() => {
-                    // router.push(`/${row.path}?data=${JSON.stringify(row)}`);
-                  }}
-                  sx={{ cursor: "pointer" }}
-                >
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="left">{row.city}</TableCell>
-                  <TableCell align="left">{row.email}</TableCell>
-                  <TableCell align="left">{row.phone_number}</TableCell>
-                  <TableCell align="left">{row.address}</TableCell>
-                  <TableCell align="left">{row.established_in}</TableCell>
-                  <TableCell align="left">{row.website}</TableCell>
-                  <TableCell align="left">{row.employee_size}</TableCell>
-                  <TableCell align="right">
-                    <IconButton
-                      aria-label="select"
-                      onClick={() => {
-                        // console.log(row.id);
-                      }}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+              <TableRow
+                hover
+                onClick={() => {
+                  // router.push(`/${row.path}?data=${JSON.stringify(row)}`);
+                }}
+                sx={{ cursor: "pointer" }}
+              >
+                <TableCell align="left">{institutes.name}</TableCell>
+                <TableCell align="left">{institutes.city}</TableCell>
+                <TableCell align="left">{institutes.email}</TableCell>
+                <TableCell align="left">{institutes.phone_number}</TableCell>
+                <TableCell align="left">{institutes.address}</TableCell>
+                <TableCell align="left">{institutes.established_in}</TableCell>
+                <TableCell align="left">{institutes.website}</TableCell>
+                <TableCell align="left">{institutes.employee_size}</TableCell>
+                <TableCell align="right">
+                  <IconButton
+                    aria-label="select"
+                    onClick={() => {
+                      // console.log(row.id);
+                    }}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10]}
           component="div"
-          count={institutes.length}
+          count={1}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
     </Box>
   );
 };
 
-export default ESGTable;
+export default InstitutionTable;

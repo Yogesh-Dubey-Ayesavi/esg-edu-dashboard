@@ -5,12 +5,15 @@ import { Button, TextField, Box, Typography, Paper } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ESG from "@/lib/esg-helper";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [questions, setQuestions] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +28,24 @@ const Home = () => {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const callFunction = async () => {
+      const role = await ESG.getRole();
+      if (role === "super_admin") {
+        router.push("/dashboard");
+        return;
+      }
+
+      const { data, error } = await ESG.supabase.rpc("had_assesment");
+      if (data === true) {
+        router.push("/dashboard");
+      } else {
+        router.push("/quiz");
+      }
+    };
+    callFunction();
   }, []);
 
   const hasMoreThan300Words = (text) => {
@@ -59,6 +80,26 @@ const Home = () => {
     setCurrentAnswer("");
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const formattedAnswers = userAnswers.filter(({ answer }) => answer.trim() !== "").map(({ id, answer }) => ({ que_id: id, answer }));
+      // Assuming you have a table named 'answers' in your Supabase database
+      const { error } = await ESG.supabase.from("institution_assesments").insert(formattedAnswers);
+
+      if (error) {
+        console.error("Error submitting answers:", error);
+        toast.error("Error submitting answers");
+      } else {
+        toast.success("Answers submitted successfully");
+        router.push("/dashboard");
+        // Redirect or perform any other action after successful submission
+      }
+    } catch (e) {
+      console.error("Error:", e);
+      toast.error(e.message || "An error occurred");
     }
   };
 
@@ -125,7 +166,8 @@ const Home = () => {
               variant="contained"
               endIcon={<ArrowForwardIcon />}
               onClick={() => {
-                console.log("Now you can redirect.");
+                handleSubmit();
+                // console.log("Now you can redirect.");
               }}
               sx={{ backgroundColor: "#6366F1", borderRadius: "10px " }}
             >

@@ -30,7 +30,7 @@ export default function page() {
               },
             }}
           >
-            Institutions List
+            Institutions List 
           </Typography>
           <InstitutionTable handleClickOpen={handleClickOpen} />
           {/* <InstitutionFormDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleClose} /> */}

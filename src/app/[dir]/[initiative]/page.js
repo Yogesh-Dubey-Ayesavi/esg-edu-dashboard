@@ -64,12 +64,16 @@ const page = ({ params }) => {
     setLoading(true);
     const updatedContent = new InitiativeContent({ ...markdown });
     toast.loading("Deleting the document", {
-      duration: 5000, 
+      duration: 5000,
     });
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      await ESG.deleteFile(fileModel, updatedContent.sha);
+      await ESG.supabase.rpc("delete_file", {
+        file_id: fileModel.id,
+        path: fileModel.path + ".mdx",
+        file_sha: markdown.sha,
+      });
       router.back();
       toast.success("Deleted. Please wait 30 seconds to see the changes");
     } catch (error) {
