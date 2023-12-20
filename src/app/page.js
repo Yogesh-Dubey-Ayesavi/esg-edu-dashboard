@@ -35,7 +35,9 @@ const InstitutionForm = () => {
           return;
         }
 
-        const { data, error } = await ESG.supabase.from("institutions").select();
+        const userData = await ESG.getUserInfo();
+
+        const { data, error } = await ESG.supabase.from("institutions").select().eq("id", userData.id);
 
         if (data.length != 0) {
           router.push("/quiz");
@@ -52,9 +54,9 @@ const InstitutionForm = () => {
     city: "",
     phone_number: "",
     address: "",
-    established_in: "",
+    established_in: null,
     website: "",
-    employee_size: "",
+    employee_size: 0,
     industry: "",
   });
 
@@ -74,7 +76,7 @@ const InstitutionForm = () => {
       address: "",
       established_in: "",
       website: "",
-      employee_size: "",
+      employee_size: 0,
       industry: "",
     });
   };
